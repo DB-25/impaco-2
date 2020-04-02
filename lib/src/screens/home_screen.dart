@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
+  int yRatio = 120;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,8 +15,11 @@ class HomeScreen extends StatelessWidget {
             children: <Widget>[
               titleTag(),
               firstButton(),
+              Container(margin: EdgeInsets.only(bottom:20),),
               secondButton(),
+              Container(margin: EdgeInsets.only(bottom:20),),
               thirdButton(),
+              Container(margin: EdgeInsets.only(bottom:20),),
               fourthButton(),
             ],
           ),
@@ -39,7 +44,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget firstButton() {
     return AspectRatio(
-      aspectRatio: 353 / 176,
+      aspectRatio: 353 / yRatio,
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF52A088),
@@ -62,25 +67,27 @@ class HomeScreen extends StatelessWidget {
                 height: 32,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 0),
-                child: Text(
-                  "Hungry",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                ),
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 0),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 0),
-                child: Text(
-                  "There have been lot of food shortages in these trying times, Click here if you are in need.",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Hungry",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-              )
+                  Text(
+                    "There have been lot of food shortages in these trying times, Click here if you are in need.",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 8,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -90,7 +97,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget secondButton() {
     return AspectRatio(
-      aspectRatio: 353 / 176,
+      aspectRatio: 353 / yRatio,
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF52A088),
@@ -113,22 +120,22 @@ class HomeScreen extends StatelessWidget {
                 height: 32,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 0),
+                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
                 child: Text(
                   "Hungry",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 14,
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 0),
+                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                 child: Text(
                   "There have been lot of food shortages in these trying times, Click here if you are in need.",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 8,
                   ),
                 ),
               )
@@ -141,7 +148,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget thirdButton() {
     return AspectRatio(
-      aspectRatio: 353 / 176,
+      aspectRatio: 353 / yRatio,
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF52A088),
@@ -164,22 +171,22 @@ class HomeScreen extends StatelessWidget {
                 height: 32,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 0),
+                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
                 child: Text(
                   "Hungry",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 14,
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 0),
+                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                 child: Text(
                   "There have been lot of food shortages in these trying times, Click here if you are in need.",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 8,
                   ),
                 ),
               )
@@ -192,7 +199,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget fourthButton() {
     return AspectRatio(
-      aspectRatio: 353 / 176,
+      aspectRatio: 353 / yRatio,
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF52A088),
@@ -215,22 +222,22 @@ class HomeScreen extends StatelessWidget {
                 height: 32,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 0),
+                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
                 child: Text(
                   "Hungry",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 14,
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 0),
+                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                 child: Text(
                   "There have been lot of food shortages in these trying times, Click here if you are in need.",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 8,
                   ),
                 ),
               )

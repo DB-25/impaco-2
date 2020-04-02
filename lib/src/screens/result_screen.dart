@@ -48,10 +48,10 @@ class ResultScreen extends StatelessWidget {
 
   Widget firstElement() {
     return AspectRatio(
-      aspectRatio: 353 / 126,
+      aspectRatio: 353 / 110,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.green,
           borderRadius: BorderRadius.circular(25),
           boxShadow: [
             BoxShadow(
@@ -65,31 +65,34 @@ class ResultScreen extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Image.asset(
-                "assets/hungry_icon.png",
-                width: 34,
-                height: 32,
+              Container(
+                width: 100,
+                child: Column(
+                  children: <Widget>[
+                    Text("12",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 40,
+                        )
+                    ),
+                    Text("People",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15
+                        )
+                    ),
+                  ],),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 0),
-                child: Text(
-                  "Hungry",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                ),
+              Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text("Mohd Wasi"),
+                    Text("8867861530"),
+                    Text("H.No-1 Nai Basti, Bijnor"),
+                    Text("246701"),
+                  ],),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 0),
-                child: Text(
-                  "There have been lot of food shortages in these trying times, Click here if you are in need.",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                ),
-              )
             ],
           ),
         ),
