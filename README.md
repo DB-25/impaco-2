@@ -1,6 +1,6 @@
 # impaco
 
-A new Flutter project.
+Impaco app
 
 ## Getting Started
 
