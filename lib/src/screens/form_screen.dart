@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:impaco/src/models/data_model.dart';
 
-class FormScreen extends StatelessWidget {
-  String name = '';
-  String contactNo = '';
-  String noOfPeople = '';
-  String address = '';
-  String pincode = '';
-  String type = '';
+class FormScreen extends StatefulWidget {
+  FormScreen({Key key}) : super(key: key);
+
+  @override
+  FormScreenState createState() {
+    return FormScreenState();
+  }
+}
+
+class FormScreenState extends State<FormScreen> {
+
+  final TextEditingController teController = TextEditingController();
+  Future<DataModel> _futureDataModel;
+
+  String attrOne = '';
+  String attrTwo = '';
+  String attrThree = '';
+  String attrFour = '';
+  String attrFive = '';
+  String attrSix = '';
 
   @override
   Widget build(BuildContext context) {
@@ -19,17 +33,17 @@ class FormScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               titleTag(),
-              nameField(),
+              nameField(teController),
               Container(margin: EdgeInsets.only(bottom:20),),
-              contactNoField(),
+              contactNoField(teController),
               Container(margin: EdgeInsets.only(bottom:20),),
-              noOfPeopleField(),
+              noOfPeopleField(teController),
               Container(margin: EdgeInsets.only(bottom:20),),
-              pincodeField(),
+              pincodeField(teController),
               Container(margin: EdgeInsets.only(bottom:20),),
-              typeField(),
+              typeField(teController),
               Container(margin: EdgeInsets.only(bottom:20),),
-              submitButton(),
+              submitButton(teController),
             ],
           ),
         ),
@@ -63,93 +77,98 @@ class FormScreen extends StatelessWidget {
     );
   }
 
-  Widget nameField() {
+  Widget nameField(TextEditingController teController) {
     return TextFormField(
+      controller: teController,
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
         labelText: 'Enter Name',
         hintText: 'Enter Name',
       ),
       onSaved: (String value) {
-        name = value;
+        attrOne = value;
       },
     );
   }
 
-  Widget contactNoField() {
+  Widget contactNoField(TextEditingController teController) {
     return TextFormField(
+      controller: teController,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         labelText: 'Enter contact no',
         hintText: 'Enter contact no.',
       ),
       onSaved: (String value) {
-        contactNo = value;
+        attrTwo = value;
       },
     );
   }
 
-  Widget noOfPeopleField() {
+  Widget noOfPeopleField(TextEditingController teController) {
     return TextFormField(
+      controller: teController,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         labelText: 'No of People',
         hintText: 'No of People',
       ),
       onSaved: (String value) {
-        noOfPeople = value;
+        attrThree = value;
       },
     );
   }
 
-  Widget addressField() {
+  Widget addressField(TextEditingController teController) {
     return TextFormField(
+      controller: teController,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         labelText: 'Addess',
         hintText: 'Address',
       ),
       onSaved: (String value) {
-        address = value;
+        attrFour = value;
       },
     );
   }
 
-  Widget pincodeField() {
+  Widget pincodeField(TextEditingController teController) {
     return TextFormField(
+      controller: teController,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         labelText: 'Pin code',
         hintText: 'Pin code',
       ),
       onSaved: (String value) {
-        pincode = value;
+        attrFive = value;
       },
     );
   }
 
-  Widget typeField() {
+  Widget typeField(TextEditingController teController) {
     return TextFormField(
+      controller: teController,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         labelText: 'Enter contact no',
         hintText: 'Enter contact no.',
       ),
       onSaved: (String value) {
-        contactNo = value;
+        attrSix = value;
       },
     );
   }
 
-  Widget submitButton() {
+  Widget submitButton(TextEditingController teController) {
     return RaisedButton(
       color: Colors.blue,
       child: Text('Submit'),
       onPressed: () {
-        //Navigator.push(
-        //context,
-        //MaterialPageRoute(builder: (context) => FeederScreenState()),
-        //);
+        setState(() {
+          _futureDataModel = create();
+        });
       },
     );
   }
