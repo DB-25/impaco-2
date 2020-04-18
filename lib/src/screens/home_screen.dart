@@ -2,6 +2,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
+  var wOneData = {
+    'name': 'Hungry',
+    'image': 'assets/hungry_icon.png',
+    'color': '0xFF52A088'
+  };
+  var wTwoData = {
+    'name': 'Feeder',
+    'image': 'assets/feed_people.png',
+    'color': '0xFFDB6E8D'
+  };
+  var wThrData = {
+    'name': 'Login',
+    'image': 'assets/login.png',
+    'color': '0xFF678CC0'
+  };
+  var wFourData = {
+    'name': 'Register',
+    'image': 'assets/signup_up.png',
+    'color': '0xFFC26CC5'
+  };
   int yRatio = 120;
   @override
   Widget build(BuildContext context) {
@@ -14,13 +34,13 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               titleTag(),
-              firstButton(),
+              firstButton(wOneData),
               Container(margin: EdgeInsets.only(bottom:20),),
-              secondButton(),
+              firstButton(wTwoData),
               Container(margin: EdgeInsets.only(bottom:20),),
-              thirdButton(),
+              firstButton(wThrData),
               Container(margin: EdgeInsets.only(bottom:20),),
-              fourthButton(),
+              firstButton(wFourData),
             ],
           ),
         ),
@@ -42,7 +62,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget firstButton() {
+  Widget firstButton(var wOneData1) {
     return AspectRatio(
       aspectRatio: 353 / yRatio,
       child: Container(
@@ -62,7 +82,7 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Image.asset(
-                "assets/hungry_icon.png",
+                wOneData1['image'],
                 width: 34,
                 height: 32,
               ),
@@ -73,7 +93,7 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Hungry",
+                    wOneData1['name'],
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,

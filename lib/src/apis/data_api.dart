@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:impaco/src/models/data_model.dart';
 
 class DataApiDriver {
+
   Future<DataModel> create(DataModel dataModel) async {
     final http.Response response = await http.post(
       'http://145.239.92.37:8080/fagnum-api/feeder/create',
@@ -28,6 +29,21 @@ class DataApiDriver {
       return DataModel.fromMap(json.decode(response.body));
     } else {
       // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
+  }
+
+  Future<DataModel> fetchAlbum() async {
+    final response =
+    await http.get('https://jsonplaceholder.typicode.com/albums/1');
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return DataModel.fromMap(json.decode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
       // then throw an exception.
       throw Exception('Failed to load album');
     }
