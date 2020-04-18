@@ -1,50 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:impaco/src/models/data_model.dart';
+import 'package:impaco/src/apis/data_api.dart';
 
 class FormScreen extends StatefulWidget {
-  FormScreen({Key key}) : super(key: key);
-
   @override
-  FormScreenState createState() {
-    return FormScreenState();
-  }
+  FormScreenState createState() => FormScreenState();
 }
 
 class FormScreenState extends State<FormScreen> {
 
+  final formKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  DataApiDriver apiDriver = new DataApiDriver();
   final TextEditingController teController = TextEditingController();
-  Future<DataModel> _futureDataModel;
+  Future<DataModel> futureDataModel;
 
-  String attrOne = '';
-  String attrTwo = '';
-  String attrThree = '';
-  String attrFour = '';
-  String attrFive = '';
-  String attrSix = '';
+  var formData = {
+    'attrOne': '',
+    'attrTwo': '',
+    'attrThree': '',
+    'attrFour': '',
+    'attrFive': '',
+    'attrSix': '',
+  };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Color(0xFF2b2e44),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              titleTag(),
-              nameField(teController),
-              Container(margin: EdgeInsets.only(bottom:20),),
-              contactNoField(teController),
-              Container(margin: EdgeInsets.only(bottom:20),),
-              noOfPeopleField(teController),
-              Container(margin: EdgeInsets.only(bottom:20),),
-              pincodeField(teController),
-              Container(margin: EdgeInsets.only(bottom:20),),
-              typeField(teController),
-              Container(margin: EdgeInsets.only(bottom:20),),
-              submitButton(teController),
-            ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  titleTag(),
+                  nameField(),
+                  Container(margin: EdgeInsets.only(bottom:20),),
+                  contactNoField(),
+                  Container(margin: EdgeInsets.only(bottom:20),),
+                  noOfPeopleField(),
+                  Container(margin: EdgeInsets.only(bottom:20),),
+                  pinCodeField(),
+                  Container(margin: EdgeInsets.only(bottom:20),),
+                  typeField(),
+                  Container(margin: EdgeInsets.only(bottom:20),),
+                  submitButton(apiDriver),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -77,97 +85,94 @@ class FormScreenState extends State<FormScreen> {
     );
   }
 
-  Widget nameField(TextEditingController teController) {
+  Widget nameField() {
     return TextFormField(
-      controller: teController,
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
         labelText: 'Enter Name',
         hintText: 'Enter Name',
       ),
       onSaved: (String value) {
-        attrOne = value;
+        formData['attrOne'] = value;
       },
     );
   }
 
-  Widget contactNoField(TextEditingController teController) {
+  Widget contactNoField() {
     return TextFormField(
-      controller: teController,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         labelText: 'Enter contact no',
         hintText: 'Enter contact no.',
       ),
       onSaved: (String value) {
-        attrTwo = value;
+        formData['attrTwo'] = value;
       },
     );
   }
 
-  Widget noOfPeopleField(TextEditingController teController) {
+  Widget noOfPeopleField() {
     return TextFormField(
-      controller: teController,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         labelText: 'No of People',
         hintText: 'No of People',
       ),
       onSaved: (String value) {
-        attrThree = value;
+        formData['attrThree'] = value;
       },
     );
   }
 
-  Widget addressField(TextEditingController teController) {
+  Widget addressField() {
     return TextFormField(
-      controller: teController,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         labelText: 'Addess',
         hintText: 'Address',
       ),
       onSaved: (String value) {
-        attrFour = value;
+        formData['attrFour'] = value;
       },
     );
   }
 
-  Widget pincodeField(TextEditingController teController) {
+  Widget pinCodeField() {
     return TextFormField(
-      controller: teController,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         labelText: 'Pin code',
         hintText: 'Pin code',
       ),
       onSaved: (String value) {
-        attrFive = value;
+        formData['attrFive'] = value;
       },
     );
   }
 
-  Widget typeField(TextEditingController teController) {
+  Widget typeField() {
     return TextFormField(
-      controller: teController,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         labelText: 'Enter contact no',
         hintText: 'Enter contact no.',
       ),
       onSaved: (String value) {
-        attrSix = value;
+        formData['attrSix'] = value;
       },
     );
   }
 
-  Widget submitButton(TextEditingController teController) {
+  Widget submitButton(DataApiDriver apiDriver) {
     return RaisedButton(
       color: Colors.blue,
       child: Text('Submit'),
-      onPressed: () {
+      onPressed: () async {
         setState(() {
-          _futureDataModel = create();
+          formKey.currentState.save();
+          final dataModel = DataModel.fromMap(formData);
+          final response = apiDriver.create(dataModel);
+          //_futureDataModel = create();
         });
       },
     );
