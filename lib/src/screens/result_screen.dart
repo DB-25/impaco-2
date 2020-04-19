@@ -1,6 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:impaco/src/models/data_model.dart';
+import 'package:impaco/src/apis/data_api.dart';
 
-class ResultScreen extends StatelessWidget {
+class ResultScreen extends StatefulWidget {
+  @override
+  ResultScreenState createState() => ResultScreenState();
+}
+
+class ResultScreenState extends State<ResultScreen> {
+  DataApiDriver apiDriver = new DataApiDriver();
+  Future<DataModel> futureData;
+  final List<String> items = ['apple', 'banana' ];
+
+  @override
+  void initState() {
+    super.initState();
+    futureData = apiDriver.read();
+    //for (var item in items)
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +31,15 @@ class ResultScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               titleTag(),
-              firstElement(),
+              ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: items.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return new Text(items[index]);
+                },
+              ),
+              //for (var item in items) firstElement(),
             ],
           ),
         ),

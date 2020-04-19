@@ -2,7 +2,7 @@ class DataModel {
   String primaryId;
   String attrOne;
   String attrTwo;
-  String attrThree;
+  String attrThr;
   String attrFour;
   String attrFive;
   String attrSix;
@@ -12,7 +12,7 @@ class DataModel {
     this.primaryId,
     this.attrOne,
     this.attrTwo,
-    this.attrThree,
+    this.attrThr,
     this.attrFour,
     this.attrFive,
     this.attrSix,
@@ -24,7 +24,7 @@ class DataModel {
         primaryId : parsedJson['primaryId'],
         attrOne : parsedJson['attrOne'],
         attrTwo : parsedJson['attrTwo'],
-        attrThree : parsedJson['attrThree'],
+        attrThr : parsedJson['attrThr'],
         attrFour : parsedJson['attrFour'],
         attrFive : parsedJson['attrFive'],
         attrSix : parsedJson['attrSix'],

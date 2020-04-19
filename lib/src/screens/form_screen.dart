@@ -18,7 +18,7 @@ class FormScreenState extends State<FormScreen> {
   var formData = {
     'attrOne': '',
     'attrTwo': '',
-    'attrThree': '',
+    'attrThr': '',
     'attrFour': '',
     'attrFive': '',
     'attrSix': '',
@@ -26,31 +26,33 @@ class FormScreenState extends State<FormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Color(0xFF2b2e44),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
-            child: Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  titleTag(),
-                  nameField(),
-                  Container(margin: EdgeInsets.only(bottom:20),),
-                  contactNoField(),
-                  Container(margin: EdgeInsets.only(bottom:20),),
-                  noOfPeopleField(),
-                  Container(margin: EdgeInsets.only(bottom:20),),
-                  pinCodeField(),
-                  Container(margin: EdgeInsets.only(bottom:20),),
-                  typeField(),
-                  Container(margin: EdgeInsets.only(bottom:20),),
-                  submitButton(apiDriver),
-                ],
+    return GestureDetector(
+      child: Scaffold(
+        key: scaffoldKey,
+        backgroundColor: Color(0xFF2b2e44),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    titleTag(),
+                    nameField(),
+                    Container(margin: EdgeInsets.only(bottom:20),),
+                    contactNoField(),
+                    Container(margin: EdgeInsets.only(bottom:20),),
+                    noOfPeopleField(),
+                    Container(margin: EdgeInsets.only(bottom:20),),
+                    pinCodeField(),
+                    Container(margin: EdgeInsets.only(bottom:20),),
+                    typeField(),
+                    Container(margin: EdgeInsets.only(bottom:20),),
+                    submitButton(apiDriver),
+                  ],
+                ),
               ),
             ),
           ),
@@ -119,7 +121,7 @@ class FormScreenState extends State<FormScreen> {
         hintText: 'No of People',
       ),
       onSaved: (String value) {
-        formData['attrThree'] = value;
+        formData['attrThr'] = value;
       },
     );
   }
@@ -164,17 +166,37 @@ class FormScreenState extends State<FormScreen> {
   }
 
   Widget submitButton(DataApiDriver apiDriver) {
-    return RaisedButton(
-      color: Colors.blue,
-      child: Text('Submit'),
-      onPressed: () async {
-        setState(() {
-          formKey.currentState.save();
-          final dataModel = DataModel.fromMap(formData);
-          final response = apiDriver.create(dataModel);
-          //_futureDataModel = create();
-        });
-      },
+    return Row(
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            RaisedButton(
+              color: Colors.blue,
+              child: Text('Submit'),
+              onPressed: () async {
+                setState(() {
+                  formKey.currentState.save();
+                  final dataModel = DataModel.fromMap(formData);
+                  final response = apiDriver.create(dataModel);
+                  //_futureDataModel = create();
+                });
+              },
+            ),
+          ],
+        ),
+        Padding(padding: EdgeInsets.only(left: 30)),
+        Column(
+          children: <Widget>[
+            RaisedButton(
+              color: Colors.blue,
+              child: Text('Back'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        )
+      ],
     );
   }
 }

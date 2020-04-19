@@ -15,7 +15,7 @@ class DataApiDriver {
       body: jsonEncode(<String, String>{
         'attrOne': dataModel.attrOne,
         'attrTwo': dataModel.attrTwo,
-        'attrThree': dataModel.attrThree,
+        'attrThr': dataModel.attrThr,
         'attrFour': dataModel.attrFour,
         'attrFive': dataModel.attrFive,
         'attrSix': dataModel.attrSix,
@@ -34,18 +34,26 @@ class DataApiDriver {
     }
   }
 
-  Future<DataModel> fetchAlbum() async {
-    final response =
-    await http.get('https://jsonplaceholder.typicode.com/albums/1');
-
+  Future<DataModel> read() async {
+    final response = await http.post(
+      'http://145.239.92.37:8080/fagnum-api/feeder/read',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'accessToken': 'dfgdh',
+      },
+      body: jsonEncode(<String, String>{
+      }),
+    );
+    //final response = await http.get('http://145.239.92.37:8080/fagnum-api/feeder/read');
     if (response.statusCode == 200) {
+      print(response.body);
       // If the server did return a 200 OK response,
       // then parse the JSON.
       return DataModel.fromMap(json.decode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load data model');
     }
   }
 }

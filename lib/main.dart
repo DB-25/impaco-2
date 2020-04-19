@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:impaco/src/screens/album_screen.dart';
 import 'src/screens/home_screen.dart';
 import 'src/screens/result_screen.dart';
 import 'src/screens/form_screen.dart';
