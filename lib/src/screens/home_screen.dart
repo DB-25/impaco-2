@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'form_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  var homeData = [
+  List<dynamic> homeDatas = [
     {
       'name': 'Hungry',
       'image': 'assets/hungry_icon.png',
@@ -26,6 +26,7 @@ class HomeScreen extends StatelessWidget {
       'color': '0xFFC26CC5',
     }
   ];
+
   var wOneData = {
     'name': 'Hungry',
     'image': 'assets/hungry_icon.png',

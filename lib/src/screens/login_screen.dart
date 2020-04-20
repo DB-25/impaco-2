@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:impaco/src/models/data_model.dart';
 import 'package:impaco/src/apis/api_driver.dart';
 
-class FormScreen extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   @override
-  FormScreenState createState() => FormScreenState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class FormScreenState extends State<FormScreen> {
+class LoginScreenState extends State<LoginScreen> {
 
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -40,15 +40,9 @@ class FormScreenState extends State<FormScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     titleTag(),
-                    nameField(),
+                    emailField(),
                     Container(margin: EdgeInsets.only(bottom:20),),
-                    contactNoField(),
-                    Container(margin: EdgeInsets.only(bottom:20),),
-                    noOfPeopleField(),
-                    Container(margin: EdgeInsets.only(bottom:20),),
-                    pinCodeField(),
-                    Container(margin: EdgeInsets.only(bottom:20),),
-                    typeField(),
+                    passwordField(),
                     Container(margin: EdgeInsets.only(bottom:20),),
                     submitButton(apiDriver),
                   ],
@@ -66,7 +60,7 @@ class FormScreenState extends State<FormScreen> {
       margin: const EdgeInsets.only(bottom: 30),
       child: Column(children: <Widget>[
         Text(
-          "Register",
+          "Login",
           style: TextStyle(
             color: Colors.white,
             fontSize: 28,
@@ -87,12 +81,12 @@ class FormScreenState extends State<FormScreen> {
     );
   }
 
-  Widget nameField() {
+  Widget emailField() {
     return TextFormField(
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
-        labelText: 'Enter Name',
-        hintText: 'Enter Name',
+        labelText: 'Enter email',
+        hintText: 'Enter email',
       ),
       onSaved: (String value) {
         formData['attrOne'] = value;
@@ -100,67 +94,16 @@ class FormScreenState extends State<FormScreen> {
     );
   }
 
-  Widget contactNoField() {
+  Widget passwordField() {
     return TextFormField(
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.text,
+      obscureText: true,
       decoration: InputDecoration(
-        labelText: 'Enter contact no',
-        hintText: 'Enter contact no.',
+        labelText: 'Enter password',
+        hintText: 'Enter password',
       ),
       onSaved: (String value) {
         formData['attrTwo'] = value;
-      },
-    );
-  }
-
-  Widget noOfPeopleField() {
-    return TextFormField(
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-        labelText: 'No of People',
-        hintText: 'No of People',
-      ),
-      onSaved: (String value) {
-        formData['attrThr'] = value;
-      },
-    );
-  }
-
-  Widget addressField() {
-    return TextFormField(
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-        labelText: 'Addess',
-        hintText: 'Address',
-      ),
-      onSaved: (String value) {
-        formData['attrFour'] = value;
-      },
-    );
-  }
-
-  Widget pinCodeField() {
-    return TextFormField(
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-        labelText: 'Pin code',
-        hintText: 'Pin code',
-      ),
-      onSaved: (String value) {
-        formData['attrFive'] = value;
-      },
-    );
-  }
-
-  Widget typeField() {
-    return TextFormField(
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-        labelText: 'Enter contact no',
-        hintText: 'Enter contact no.',
-      ),
-      onSaved: (String value) {
-        formData['attrSix'] = value;
       },
     );
   }

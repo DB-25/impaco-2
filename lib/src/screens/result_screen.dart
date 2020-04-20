@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:impaco/src/models/data_model.dart';
-import 'package:impaco/src/apis/data_api.dart';
+import 'package:impaco/src/apis/api_driver.dart';
 
 class ResultScreen extends StatefulWidget {
   @override
@@ -9,14 +9,14 @@ class ResultScreen extends StatefulWidget {
 }
 
 class ResultScreenState extends State<ResultScreen> {
-  DataApiDriver apiDriver = new DataApiDriver();
+  ApiDriver apiDriver = new ApiDriver();
   Future<List<DataModel>> futureData;
   final List<String> items = ['apple', 'banana'];
 
   @override
   void initState() {
     super.initState();
-    futureData = apiDriver.read();
+    futureData = apiDriver.read1();
     //for (var item in items)
   }
 
