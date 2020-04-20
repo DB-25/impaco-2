@@ -4,6 +4,28 @@ import 'package:flutter/material.dart';
 import 'form_screen.dart';
 
 class HomeScreen extends StatelessWidget {
+  var homeData = [
+    {
+      'name': 'Hungry',
+      'image': 'assets/hungry_icon.png',
+      'color': '0xFF52A088',
+    },
+    {
+      'name': 'Feeder',
+      'image': 'assets/feed_people.png',
+      'color': '0xFFDB6E8D',
+    },
+    {
+      'name': 'Login',
+      'image': 'assets/login.png',
+      'color': '0xFF678CC0',
+    },
+    {
+      'name': 'Register',
+      'image': 'assets/signup_up.png',
+      'color': '0xFFC26CC5',
+    }
+  ];
   var wOneData = {
     'name': 'Hungry',
     'image': 'assets/hungry_icon.png',
@@ -37,11 +59,17 @@ class HomeScreen extends StatelessWidget {
             children: <Widget>[
               titleTag(),
               firstButton(context, wOneData),
-              Container(margin: EdgeInsets.only(bottom:20),),
+              Container(
+                margin: EdgeInsets.only(bottom: 20),
+              ),
               firstButton(context, wTwoData),
-              Container(margin: EdgeInsets.only(bottom:20),),
+              Container(
+                margin: EdgeInsets.only(bottom: 20),
+              ),
               firstButton(context, wThrData),
-              Container(margin: EdgeInsets.only(bottom:20),),
+              Container(
+                margin: EdgeInsets.only(bottom: 20),
+              ),
               firstButton(context, wFourData),
             ],
           ),
@@ -126,108 +154,6 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget secondButton() {
-    return AspectRatio(
-      aspectRatio: 353 / yRatio,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color(0xFF52A088),
-          borderRadius: BorderRadius.circular(25),
-          boxShadow: [
-            BoxShadow(
-                offset: Offset(2, 4),
-                color: Colors.black.withOpacity(0.5),
-                blurRadius: 4),
-          ],
-        ),
-        child: Container(
-          margin: const EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Image.asset(
-                "assets/hungry_icon.png",
-                width: 34,
-                height: 32,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-                child: Text(
-                  "Hungry",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                child: Text(
-                  "There have been lot of food shortages in these trying times, Click here if you are in need.",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 8,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget thirdButton() {
-    return AspectRatio(
-      aspectRatio: 353 / yRatio,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color(0xFF52A088),
-          borderRadius: BorderRadius.circular(25),
-          boxShadow: [
-            BoxShadow(
-                offset: Offset(2, 4),
-                color: Colors.black.withOpacity(0.5),
-                blurRadius: 4),
-          ],
-        ),
-        child: Container(
-          margin: const EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Image.asset(
-                "assets/hungry_icon.png",
-                width: 34,
-                height: 32,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-                child: Text(
-                  "Hungry",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                child: Text(
-                  "There have been lot of food shortages in these trying times, Click here if you are in need.",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 8,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget fourthButton() {
     return AspectRatio(
       aspectRatio: 353 / yRatio,
       child: Container(
