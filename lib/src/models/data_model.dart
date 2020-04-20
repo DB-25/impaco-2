@@ -8,26 +8,25 @@ class DataModel {
   String attrSix;
   String status;
 
-  DataModel({
-    this.primaryId,
-    this.attrOne,
-    this.attrTwo,
-    this.attrThr,
-    this.attrFour,
-    this.attrFive,
-    this.attrSix,
-    this.status
-  });
+  DataModel(
+      {this.primaryId,
+      this.attrOne,
+      this.attrTwo,
+      this.attrThr,
+      this.attrFour,
+      this.attrFive,
+      this.attrSix,
+      this.status});
 
-  factory DataModel.fromMap(Map<String, dynamic> parsedJson) {
+  factory DataModel.fromMap(Map<String, dynamic> map) {
     return DataModel(
-        primaryId : parsedJson['primaryId'],
-        attrOne : parsedJson['attrOne'],
-        attrTwo : parsedJson['attrTwo'],
-        attrThr : parsedJson['attrThr'],
-        attrFour : parsedJson['attrFour'],
-        attrFive : parsedJson['attrFive'],
-        attrSix : parsedJson['attrSix'],
+      primaryId: map.containsKey('primaryId') ? (map['primaryId'] ?? '') : '',
+      attrOne: map.containsKey('attrOne') ? (map['attrOne'] ?? '') : '',
+      attrTwo: map.containsKey('attrTwo') ? (map['attrTwo'] ?? '') : '',
+      attrThr: map.containsKey('attrThr') ? (map['attrThr'] ?? '') : '',
+      attrFour: map.containsKey('attrFour') ? (map['attrFour'] ?? '') : '',
+      attrFive: map.containsKey('attrFive') ? (map['attrFive'] ?? '') : '',
+      attrSix: map.containsKey('attrSix') ? (map['attrSix'] ?? '') : '',
     );
   }
 }

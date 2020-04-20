@@ -10,8 +10,8 @@ class ResultScreen extends StatefulWidget {
 
 class ResultScreenState extends State<ResultScreen> {
   DataApiDriver apiDriver = new DataApiDriver();
-  Future<DataModel> futureData;
-  final List<String> items = ['apple', 'banana' ];
+  Future<List<DataModel>> futureData;
+  final List<String> items = ['apple', 'banana'];
 
   @override
   void initState() {
@@ -31,12 +31,18 @@ class ResultScreenState extends State<ResultScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               titleTag(),
-              ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: items.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return new Text(items[index]);
+              FutureBuilder(
+                future: futureData,
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<DataModel>> snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.done:
+                      final response = snapshot.data;
+                      return firstElement(response);
+                      break;
+                    default:
+                      return null;
+                  }
                 },
               ),
               //for (var item in items) firstElement(),
@@ -73,57 +79,61 @@ class ResultScreenState extends State<ResultScreen> {
     );
   }
 
-  Widget firstElement() {
-    return AspectRatio(
-      aspectRatio: 353 / 110,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.circular(25),
-          boxShadow: [
-            BoxShadow(
-                offset: Offset(2, 4),
-                color: Colors.black.withOpacity(0.5),
-                blurRadius: 4),
-          ],
-        ),
-        child: Container(
-          margin: const EdgeInsets.all(14),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                width: 100,
-                child: Column(
-                  children: <Widget>[
-                    Text("12",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 40,
-                        )
-                    ),
-                    Text("People",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15
-                        )
-                    ),
-                  ],),
+  Widget firstElement(List<DataModel> dataModel) {
+    return ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: dataModel.length,
+        itemBuilder: (context, int index) {
+          return AspectRatio(
+            aspectRatio: 353 / 110,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.circular(25),
+                boxShadow: [
+                  BoxShadow(
+                      offset: Offset(2, 4),
+                      color: Colors.black.withOpacity(0.5),
+                      blurRadius: 4),
+                ],
               ),
-              Container(
-                child: Column(
+              child: Container(
+                margin: const EdgeInsets.all(14),
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("Mohd Wasi"),
-                    Text("8867861530"),
-                    Text("H.No-1 Nai Basti, Bijnor"),
-                    Text("246701"),
-                  ],),
+                    Container(
+                      width: 100,
+                      child: Column(
+                        children: <Widget>[
+                          Text("12",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 40,
+                              )),
+                          Text("People",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 15)),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(dataModel[index].attrOne),
+                          Text("8867861530"),
+                          Text("H.No-1 Nai Basti, Bijnor"),
+                          Text("246701"),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
+        });
   }
 }
