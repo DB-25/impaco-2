@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:impaco/src/component/input_field.dart';
+import 'package:impaco/src/component/password_field.dart';
 import 'package:impaco/src/models/data_model.dart';
 import 'package:impaco/src/apis/api_driver.dart';
 import 'package:impaco/src/screens/register_screen.dart';
@@ -12,16 +14,11 @@ class LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   ApiDriver apiDriver = new ApiDriver();
-  final TextEditingController teController = TextEditingController();
   Future<DataModel> futureDataModel;
 
   var formData = {
-    'attrOne': '',
-    'attrTwo': '',
-    'attrThr': '',
-    'attrFour': '',
-    'attrFive': '',
-    'attrSix': '',
+    'email': '',
+    'password': '',
   };
 
   @override
@@ -41,19 +38,29 @@ class LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     titleTag(),
-                    emailField(),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: InputField(
+                        hintText: "Email",
+                        icon: Icons.face,
+                        validator: emptyValidator("Email must not be empty"),
+                        onSaved: (val) => formData['email'] = val,
+                      ),
                     ),
-                    passwordField(),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: PasswordField(
+                        hintText: "Password",
+                        icon: Icons.face,
+                        validator: passwordValidator("Password must not be empty"),
+                        onSaved: (val) => formData['password'] = val,
+                      ),
                     ),
                     submitButton(apiDriver),
                     Container(
                       margin: EdgeInsets.only(bottom: 20),
                     ),
-                    signupButton(),
+                    signUpButton(),
                   ],
                 ),
               ),
@@ -66,7 +73,7 @@ class LoginScreenState extends State<LoginScreen> {
 
   Widget titleTag() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 30),
+      margin: const EdgeInsets.only(bottom: 20),
       child: Column(children: <Widget>[
         Text(
           "Login",
@@ -90,33 +97,6 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget emailField() {
-    return TextFormField(
-      keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        labelText: 'Enter email',
-        hintText: 'Enter email',
-      ),
-      onSaved: (String value) {
-        formData['attrOne'] = value;
-      },
-    );
-  }
-
-  Widget passwordField() {
-    return TextFormField(
-      keyboardType: TextInputType.text,
-      obscureText: true,
-      decoration: InputDecoration(
-        labelText: 'Enter password',
-        hintText: 'Enter password',
-      ),
-      onSaved: (String value) {
-        formData['attrTwo'] = value;
-      },
-    );
-  }
-
   Widget submitButton(ApiDriver apiDriver) {
     return Row(
       children: <Widget>[
@@ -124,7 +104,19 @@ class LoginScreenState extends State<LoginScreen> {
           children: <Widget>[
             RaisedButton(
               color: Colors.blue,
-              child: Text('Submit'),
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Text(
+                  "Submit",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
               onPressed: () async {
                 setState(() {
                   formKey.currentState.save();
@@ -136,40 +128,34 @@ class LoginScreenState extends State<LoginScreen> {
             ),
           ],
         ),
-        Padding(padding: EdgeInsets.only(left: 30)),
-        Column(
-          children: <Widget>[
-            RaisedButton(
-              color: Colors.blue,
-              child: Text('Back'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        )
       ],
     );
   }
 
-  Widget signupButton() {
+  Widget signUpButton() {
     return Row(
       children: <Widget>[
-        Column(
-          children: <Widget>[
-            Text("New to Educato ? "),
-            Padding(padding: EdgeInsets.only(left: 10)),
-            RaisedButton(
-              color: Colors.blue,
-              child: Text('Sign up'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RegisterScreen()),
-                );
-              },
+        Text("New to Educato ? ",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+          ),
+        ),
+        Padding(padding: EdgeInsets.only(left: 10)),
+        RaisedButton(
+          color: Colors.blue,
+          child: Text('Sign up',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
             ),
-          ],
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RegisterScreen()),
+            );
+          },
         ),
       ],
     );

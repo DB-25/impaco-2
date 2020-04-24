@@ -28,7 +28,6 @@ class ResultScreenState extends State<ResultScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               titleTag(),
               FutureBuilder(
@@ -105,7 +104,6 @@ class ResultScreenState extends State<ResultScreen> {
               child: Container(
                 margin: const EdgeInsets.all(14),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
                       width: 100,
@@ -138,6 +136,7 @@ class ResultScreenState extends State<ResultScreen> {
               ),
             ),
           );
-        });
+        }
+    );
   }
 }
