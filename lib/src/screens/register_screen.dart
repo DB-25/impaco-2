@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:impaco/src/component/input_field.dart';
+import 'package:impaco/src/component/password_field.dart';
 import 'package:impaco/src/models/api_response_model.dart';
 import 'package:impaco/src/models/data_model.dart';
 import 'package:impaco/src/apis/api_driver.dart';
@@ -40,17 +42,41 @@ class RegisterScreenState extends State<RegisterScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     titleTag(),
-                    emailField(),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: InputField(
+                        hintText: "Email",
+                        icon: Icons.face,
+                        validator: emptyValidator("Email must not be empty"),
+                        onSaved: (val) => formData['attrOne'] = val,
+                      ),
                     ),
-                    passwordField(),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: PasswordField(
+                        hintText: "Password",
+                        icon: Icons.face,
+                        validator: passwordValidator("Password must not be empty"),
+                        onSaved: (val) => formData['attrTwo'] = val,
+                      ),
                     ),
-                    confirmPasswordField(),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: PasswordField(
+                        hintText: "Confirm Password",
+                        icon: Icons.face,
+                        validator: passwordValidator("Confirm password must not be empty"),
+                        onSaved: (val) => formData['attrThr'] = val,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: InputField(
+                        hintText: "Referral Code",
+                        icon: Icons.face,
+                        validator: passwordValidator("Referral code must not be empty"),
+                        onSaved: (val) => formData['attrThr'] = val,
+                      ),
                     ),
                     submitButton(apiDriver),
                   ],
@@ -67,18 +93,32 @@ class RegisterScreenState extends State<RegisterScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 30),
       child: Column(children: <Widget>[
-        Text(
-          "Register",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-          ),
+        Row(
+          children: <Widget>[
+            Text(
+              "Create Account",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 100),
+              child: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
           child: Text(
-            "Register as a feeder or a help seeker.",
+            "Sign up for a new account",
             style: TextStyle(
               color: Colors.white,
               fontSize: 14,
@@ -89,107 +129,36 @@ class RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget emailField() {
-    return TextFormField(
-      keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        labelText: 'Enter email',
-        hintText: 'Enter email',
-      ),
-      onSaved: (String value) {
-        formData['attrOne'] = value;
-      },
-    );
-  }
-
-  Widget passwordField() {
-    return TextFormField(
-      keyboardType: TextInputType.text,
-      obscureText: true,
-      decoration: InputDecoration(
-        labelText: 'Enter password',
-        hintText: 'Enter password',
-      ),
-      onSaved: (String value) {
-        formData['attrTwo'] = value;
-      },
-    );
-  }
-
-  Widget confirmPasswordField() {
-    return TextFormField(
-      keyboardType: TextInputType.text,
-      obscureText: true,
-      decoration: InputDecoration(
-        labelText: 'Enter confirm password',
-        hintText: 'Enter confirm password',
-      ),
-      onSaved: (String value) {
-        formData['attrThr'] = value;
-      },
-    );
-  }
-
-  Widget userTypeField() {
-    return TextFormField(
-      keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        labelText: 'Enter user type',
-        hintText: 'Enter user type',
-      ),
-      onSaved: (String value) {
-        formData['attrFour'] = value;
-      },
-    );
-  }
-
-  Widget referralField() {
-    return TextFormField(
-      keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        labelText: 'Enter referral code',
-        hintText: 'Enter referral code',
-      ),
-      onSaved: (String value) {
-        formData['attrFive'] = value;
-      },
-    );
-  }
-
   Widget submitButton(ApiDriver apiDriver) {
-    return Row(
+    return Column(
       children: <Widget>[
-        Column(
-          children: <Widget>[
-            RaisedButton(
-              color: Colors.blue,
-              child: Text('Create Account'),
-              onPressed: () async {
-                formKey.currentState.save();
-                final dataModel = DataModel.fromMap(formData);
-                futureDataModel = apiDriver.create(dataModel);
-                FutureBuilder(
-                  future: futureDataModel,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      print(snapshot.data);
-                      return Text(snapshot.data.title);
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    }
-                  },
-                );
-              },
+        RaisedButton(
+          color: Colors.blue,
+          child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Text(
+              "Submit",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
             ),
-            Padding(padding: EdgeInsets.only(left: 30)),
-            RaisedButton(
-              color: Colors.blue,
-              child: Text('Back'),
-              onPressed: () {
-                Navigator.pop(context);
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          onPressed: () async {
+            formKey.currentState.save();
+            final dataModel = DataModel.fromMap(formData);
+            futureDataModel = apiDriver.create(dataModel);
+            FutureBuilder(
+              future: futureDataModel,
+              builder: (context, snapshot) {
+                print(snapshot.data);
+                return snapshot.data;
               },
-            ),
-          ],
+            );
+          },
         ),
       ],
     );

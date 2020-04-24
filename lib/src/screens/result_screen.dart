@@ -16,7 +16,7 @@ class ResultScreenState extends State<ResultScreen> {
   @override
   void initState() {
     super.initState();
-    futureData = apiDriver.read1();
+    futureData = apiDriver.read();
     //for (var item in items)
   }
 
