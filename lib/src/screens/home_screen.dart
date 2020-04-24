@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:impaco/src/screens/register_screen.dart';
 
 import 'form_screen.dart';
+import 'login_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final List<Map<String, dynamic>> homeDatas = [
@@ -9,26 +11,29 @@ class HomeScreen extends StatelessWidget {
       'name': 'Hungry',
       'image': 'assets/hungry_icon.png',
       'color': Color(0xFF52A088),
-      'description': '',
+      'description': 'Desc 1',
       'navigate': FormScreen(),
     },
     {
       'name': 'Feeder',
       'image': 'assets/feed_people.png',
       'color': Color(0xFFDB6E8D),
-      'description': '',
+      'description': 'Desc 2',
+      'navigate': FormScreen(),
     },
     {
       'name': 'Login',
       'image': 'assets/login.png',
       'color': Color(0xFF678CC0),
-      'description': '',
+      'description': 'Desc 3',
+      'navigate': LoginScreen()
     },
     {
       'name': 'Register',
       'image': 'assets/signup_up.png',
       'color': Color(0xFFC26CC5),
-      'description': '',
+      'description': 'Desc 4',
+      'navigate': RegisterScreen(),
     }
   ];
 
@@ -47,16 +52,11 @@ class HomeScreen extends StatelessWidget {
               Column(
                 children: homeDatas
                     .map<Widget>((data) => Column(children: <Widget>[
+                          Container(margin: EdgeInsets.only(bottom: 15)),
                           firstButton(context, data),
-                          Container(margin: EdgeInsets.only(bottom: 20)),
                         ]))
                     .toList(),
               ),
-              //firstButton(context, wTwoData),
-
-              //firstButton(context, wThrData),
-
-              //firstButton(context, wFourData),
             ],
           ),
         ),
@@ -83,7 +83,7 @@ class HomeScreen extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => FormScreen()),
+          MaterialPageRoute(builder: (context) => data['navigate']),
         );
       },
       child: AspectRatio(

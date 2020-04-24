@@ -41,7 +41,11 @@ class ResultScreenState extends State<ResultScreen> {
                       return firstElement(response);
                       break;
                     default:
-                      return null;
+                      return Container(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
                   }
                 },
               ),

@@ -8,10 +8,10 @@ import 'src/screens/register_screen.dart';
 void main() => runApp(MaterialApp(
       title: "Impaco",
       theme: ThemeData(primarySwatch: Colors.blue),
-      //home: HomeScreen(),
+      home: HomeScreen(),
       //home: ResultScreen(),
       //home: FormScreen(),
-      home: LoginScreen(),
+      //home: LoginScreen(),
       //home: RegisterScreen(),
     ));
 
