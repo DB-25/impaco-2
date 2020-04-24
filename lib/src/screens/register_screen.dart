@@ -8,7 +8,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class RegisterScreenState extends State<RegisterScreen> {
-
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   ApiDriver apiDriver = new ApiDriver();
@@ -33,7 +32,8 @@ class RegisterScreenState extends State<RegisterScreen> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
               child: Form(
                 key: formKey,
                 child: Column(
@@ -41,11 +41,17 @@ class RegisterScreenState extends State<RegisterScreen> {
                   children: <Widget>[
                     titleTag(),
                     emailField(),
-                    Container(margin: EdgeInsets.only(bottom:20),),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                    ),
                     passwordField(),
-                    Container(margin: EdgeInsets.only(bottom:20),),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                    ),
                     confirmPasswordField(),
-                    Container(margin: EdgeInsets.only(bottom:20),),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                    ),
                     submitButton(apiDriver),
                   ],
                 ),
@@ -124,6 +130,32 @@ class RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  Widget userTypeField() {
+    return TextFormField(
+      keyboardType: TextInputType.text,
+      decoration: InputDecoration(
+        labelText: 'Enter user type',
+        hintText: 'Enter user type',
+      ),
+      onSaved: (String value) {
+        formData['attrFour'] = value;
+      },
+    );
+  }
+
+  Widget referralField() {
+    return TextFormField(
+      keyboardType: TextInputType.text,
+      decoration: InputDecoration(
+        labelText: 'Enter referral code',
+        hintText: 'Enter referral code',
+      ),
+      onSaved: (String value) {
+        formData['attrFive'] = value;
+      },
+    );
+  }
+
   Widget submitButton(ApiDriver apiDriver) {
     return Row(
       children: <Widget>[
@@ -131,21 +163,16 @@ class RegisterScreenState extends State<RegisterScreen> {
           children: <Widget>[
             RaisedButton(
               color: Colors.blue,
-              child: Text('Submit'),
+              child: Text('Create Account'),
               onPressed: () async {
                 setState(() {
                   formKey.currentState.save();
                   final dataModel = DataModel.fromMap(formData);
                   final response = apiDriver.create(dataModel);
-                  //_futureDataModel = create();
                 });
               },
             ),
-          ],
-        ),
-        Padding(padding: EdgeInsets.only(left: 30)),
-        Column(
-          children: <Widget>[
+            Padding(padding: EdgeInsets.only(left: 30)),
             RaisedButton(
               color: Colors.blue,
               child: Text('Back'),
@@ -154,7 +181,7 @@ class RegisterScreenState extends State<RegisterScreen> {
               },
             ),
           ],
-        )
+        ),
       ],
     );
   }

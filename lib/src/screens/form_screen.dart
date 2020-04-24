@@ -8,7 +8,6 @@ class FormScreen extends StatefulWidget {
 }
 
 class FormScreenState extends State<FormScreen> {
-
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   ApiDriver apiDriver = new ApiDriver();
@@ -33,7 +32,8 @@ class FormScreenState extends State<FormScreen> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
               child: Form(
                 key: formKey,
                 child: Column(
@@ -41,15 +41,25 @@ class FormScreenState extends State<FormScreen> {
                   children: <Widget>[
                     titleTag(),
                     nameField(),
-                    Container(margin: EdgeInsets.only(bottom:20),),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                    ),
                     contactNoField(),
-                    Container(margin: EdgeInsets.only(bottom:20),),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                    ),
                     noOfPeopleField(),
-                    Container(margin: EdgeInsets.only(bottom:20),),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                    ),
                     pinCodeField(),
-                    Container(margin: EdgeInsets.only(bottom:20),),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                    ),
                     typeField(),
-                    Container(margin: EdgeInsets.only(bottom:20),),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                    ),
                     submitButton(apiDriver),
                   ],
                 ),

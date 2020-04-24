@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:impaco/src/models/data_model.dart';
 import 'package:impaco/src/apis/api_driver.dart';
+import 'package:impaco/src/screens/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -8,7 +9,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
-
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   ApiDriver apiDriver = new ApiDriver();
@@ -33,7 +33,8 @@ class LoginScreenState extends State<LoginScreen> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
               child: Form(
                 key: formKey,
                 child: Column(
@@ -41,10 +42,18 @@ class LoginScreenState extends State<LoginScreen> {
                   children: <Widget>[
                     titleTag(),
                     emailField(),
-                    Container(margin: EdgeInsets.only(bottom:20),),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                    ),
                     passwordField(),
-                    Container(margin: EdgeInsets.only(bottom:20),),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                    ),
                     submitButton(apiDriver),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                    ),
+                    signupButton(),
                   ],
                 ),
               ),
@@ -139,6 +148,29 @@ class LoginScreenState extends State<LoginScreen> {
             ),
           ],
         )
+      ],
+    );
+  }
+
+  Widget signupButton() {
+    return Row(
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            Text("New to Educato ? "),
+            Padding(padding: EdgeInsets.only(left: 10)),
+            RaisedButton(
+              color: Colors.blue,
+              child: Text('Sign up'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RegisterScreen()),
+                );
+              },
+            ),
+          ],
+        ),
       ],
     );
   }

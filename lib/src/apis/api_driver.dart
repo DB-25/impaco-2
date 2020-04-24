@@ -5,7 +5,7 @@ import 'package:impaco/src/models/api_response_model.dart';
 import 'package:impaco/src/models/data_model.dart';
 
 class ApiDriver {
-  Future<DataModel> create(DataModel dataModel) async {
+  Future<ApiResponse<DataModel>> create(DataModel dataModel) async {
     final http.Response response = await http.post(
       'http://145.239.92.37:8080/fagnum-api/feeder/create',
       headers: <String, String>{
@@ -22,15 +22,15 @@ class ApiDriver {
         'status': dataModel.status,
       }),
     );
-    if (response.statusCode == 200) {
-      print(response);
-      // If the server did return a 200 CREATED response,
-      // then parse the JSON.
-      return DataModel.fromMap(json.decode(response.body));
+    if (response.statusCode != 200) {
+      throw Exception('Failed to save data');
     } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
-      throw Exception('Failed to load album');
+      Map<String, dynamic> responseMap = jsonDecode(response.body);
+      if (!responseMap['status']) {
+        throw Exception('Failed to load data model');
+      } else {
+        return ApiResponse.fromMap(responseMap);
+      }
     }
   }
 
@@ -73,7 +73,7 @@ class ApiDriver {
     if (response.statusCode != 200) {
       throw Exception('Failed to load data model');
     } else {
-      ApiResponse apiResponse  = ApiResponse.fromMap(jsonDecode(response.body));
+      ApiResponse apiResponse = ApiResponse.fromMap(jsonDecode(response.body));
       print(apiResponse);
       if (!apiResponse.status) {
         throw Exception('Failed to load data model');
