@@ -4,49 +4,34 @@ import 'package:flutter/material.dart';
 import 'form_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  List<dynamic> homeDatas = [
+  final List<Map<String, dynamic>> homeDatas = [
     {
       'name': 'Hungry',
       'image': 'assets/hungry_icon.png',
-      'color': '0xFF52A088',
+      'color': Color(0xFF52A088),
+      'description': '',
+      'navigate': FormScreen(),
     },
     {
       'name': 'Feeder',
       'image': 'assets/feed_people.png',
-      'color': '0xFFDB6E8D',
+      'color': Color(0xFFDB6E8D),
+      'description': '',
     },
     {
       'name': 'Login',
       'image': 'assets/login.png',
-      'color': '0xFF678CC0',
+      'color': Color(0xFF678CC0),
+      'description': '',
     },
     {
       'name': 'Register',
       'image': 'assets/signup_up.png',
-      'color': '0xFFC26CC5',
+      'color': Color(0xFFC26CC5),
+      'description': '',
     }
   ];
 
-  var wOneData = {
-    'name': 'Hungry',
-    'image': 'assets/hungry_icon.png',
-    'color': '0xFF52A088'
-  };
-  var wTwoData = {
-    'name': 'Feeder',
-    'image': 'assets/feed_people.png',
-    'color': '0xFFDB6E8D'
-  };
-  var wThrData = {
-    'name': 'Login',
-    'image': 'assets/login.png',
-    'color': '0xFF678CC0'
-  };
-  var wFourData = {
-    'name': 'Register',
-    'image': 'assets/signup_up.png',
-    'color': '0xFFC26CC5'
-  };
   int yRatio = 120;
   @override
   Widget build(BuildContext context) {
@@ -59,19 +44,19 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               titleTag(),
-              firstButton(context, wOneData),
-              Container(
-                margin: EdgeInsets.only(bottom: 20),
+              Column(
+                children: homeDatas
+                    .map<Widget>((data) => Column(children: <Widget>[
+                          firstButton(context, data),
+                          Container(margin: EdgeInsets.only(bottom: 20)),
+                        ]))
+                    .toList(),
               ),
-              firstButton(context, wTwoData),
-              Container(
-                margin: EdgeInsets.only(bottom: 20),
-              ),
-              firstButton(context, wThrData),
-              Container(
-                margin: EdgeInsets.only(bottom: 20),
-              ),
-              firstButton(context, wFourData),
+              //firstButton(context, wTwoData),
+
+              //firstButton(context, wThrData),
+
+              //firstButton(context, wFourData),
             ],
           ),
         ),
@@ -93,7 +78,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget firstButton(BuildContext context, var wOneData1) {
+  Widget firstButton(BuildContext context, var data) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -105,7 +90,7 @@ class HomeScreen extends StatelessWidget {
         aspectRatio: 353 / yRatio,
         child: Container(
           decoration: BoxDecoration(
-            color: Color(0xFF52A088),
+            color: data['color'],
             borderRadius: BorderRadius.circular(25),
             boxShadow: [
               BoxShadow(
@@ -120,7 +105,7 @@ class HomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Image.asset(
-                  wOneData1['image'],
+                  data['image'],
                   width: 34,
                   height: 32,
                 ),
@@ -131,14 +116,14 @@ class HomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      wOneData1['name'],
+                      data['name'],
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                       ),
                     ),
                     Text(
-                      "There have been lot of food shortages in these trying times, Click here if you are in need.",
+                      data['description'],
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 8,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:impaco/src/models/api_response_model.dart';
 import 'package:impaco/src/models/data_model.dart';
 import 'package:impaco/src/apis/api_driver.dart';
 
@@ -11,8 +12,7 @@ class RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   ApiDriver apiDriver = new ApiDriver();
-  final TextEditingController teController = TextEditingController();
-  Future<DataModel> futureDataModel;
+  Future<ApiResponse<DataModel>> futureDataModel;
 
   var formData = {
     'attrOne': '',
@@ -165,11 +165,20 @@ class RegisterScreenState extends State<RegisterScreen> {
               color: Colors.blue,
               child: Text('Create Account'),
               onPressed: () async {
-                setState(() {
-                  formKey.currentState.save();
-                  final dataModel = DataModel.fromMap(formData);
-                  final response = apiDriver.create(dataModel);
-                });
+                formKey.currentState.save();
+                final dataModel = DataModel.fromMap(formData);
+                futureDataModel = apiDriver.create(dataModel);
+                FutureBuilder(
+                  future: futureDataModel,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      print(snapshot.data);
+                      return Text(snapshot.data.title);
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+                  },
+                );
               },
             ),
             Padding(padding: EdgeInsets.only(left: 30)),
