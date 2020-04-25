@@ -45,7 +45,8 @@ class FormScreenState extends State<FormScreen> {
                       child: InputField(
                         hintText: "Full Name",
                         icon: Icons.face,
-                        validator: emptyValidator("Full Name must not be empty"),
+                        validator:
+                            emptyValidator("Full Name must not be empty"),
                         onSaved: (val) => formData['attrOne'] = val,
                       ),
                     ),
@@ -54,7 +55,8 @@ class FormScreenState extends State<FormScreen> {
                       child: InputField(
                         hintText: "Contact Number",
                         icon: Icons.face,
-                        validator: emptyValidator("Contact Number must not be empty"),
+                        validator:
+                            emptyValidator("Contact Number must not be empty"),
                         onSaved: (val) => formData['attrTwo'] = val,
                       ),
                     ),
@@ -63,7 +65,8 @@ class FormScreenState extends State<FormScreen> {
                       child: InputField(
                         hintText: "Full Name",
                         icon: Icons.face,
-                        validator: emptyValidator("Full Name must not be empty"),
+                        validator:
+                            emptyValidator("Full Name must not be empty"),
                         onSaved: (val) => formData['attrOne'] = val,
                       ),
                     ),
@@ -72,7 +75,8 @@ class FormScreenState extends State<FormScreen> {
                       child: InputField(
                         hintText: "Full Name",
                         icon: Icons.face,
-                        validator: emptyValidator("Full Name must not be empty"),
+                        validator:
+                            emptyValidator("Full Name must not be empty"),
                         onSaved: (val) => formData['attrOne'] = val,
                       ),
                     ),
@@ -81,7 +85,8 @@ class FormScreenState extends State<FormScreen> {
                       child: InputField(
                         hintText: "Full Name",
                         icon: Icons.face,
-                        validator: emptyValidator("Full Name must not be empty"),
+                        validator:
+                            emptyValidator("Full Name must not be empty"),
                         onSaved: (val) => formData['attrOne'] = val,
                       ),
                     ),
@@ -162,13 +167,39 @@ class FormScreenState extends State<FormScreen> {
     );
   }
 
-  Widget typeField() {
+  Widget dateField(BuildContext context) {
     return TextFormField(
-      keyboardType: TextInputType.number,
       decoration: InputDecoration(
-        labelText: 'Enter contact no',
-        hintText: 'Enter contact no.',
+        labelText: 'Date',
+        hintText: 'Date',
       ),
+      onTap: () {
+        showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: null,
+          lastDate: DateTime(2020),
+        ).then((date) {
+          setState(() {
+            var day = date.day;
+          });
+        });
+      },
+      onSaved: (String value) {
+        formData['attrSix'] = value;
+      },
+    );
+  }
+
+  Widget timeField(BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: 'Time',
+        hintText: 'Time',
+      ),
+      onTap: () {
+        showTimePicker(context: context, initialTime: TimeOfDay.now());
+      },
       onSaved: (String value) {
         formData['attrSix'] = value;
       },
@@ -180,29 +211,29 @@ class FormScreenState extends State<FormScreen> {
       children: <Widget>[
         Center(
           child: RaisedButton(
-              color: Colors.blue,
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Text(
-                  "Submit",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
+            color: Colors.blue,
+            child: Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Text(
+                "Submit",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
                 ),
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              onPressed: () async {
-                setState(() {
-                  formKey.currentState.save();
-                  final dataModel = DataModel.fromMap(formData);
-                  final response = apiDriver.create(dataModel);
-                  //_futureDataModel = create();
-                });
-              },
             ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            onPressed: () async {
+              setState(() {
+                formKey.currentState.save();
+                final dataModel = DataModel.fromMap(formData);
+                final response = apiDriver.create(dataModel);
+                //_futureDataModel = create();
+              });
+            },
+          ),
         ),
       ],
     );
