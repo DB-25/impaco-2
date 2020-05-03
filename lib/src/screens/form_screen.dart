@@ -17,7 +17,7 @@ class FormScreenState extends State<FormScreen> {
   var formData = {
     'attrOne': '',
     'attrTwo': '',
-    'attrThr': '',
+    'attrThree': '',
     'attrFour': '',
     'attrFive': '',
     'attrSix': '',
@@ -67,7 +67,7 @@ class FormScreenState extends State<FormScreen> {
                         icon: Icons.face,
                         validator:
                             emptyValidator("Full Name must not be empty"),
-                        onSaved: (val) => formData['attrOne'] = val,
+                        onSaved: (val) => formData['attrThree'] = val,
                       ),
                     ),
                     Padding(
@@ -226,12 +226,9 @@ class FormScreenState extends State<FormScreen> {
               borderRadius: BorderRadius.circular(10),
             ),
             onPressed: () async {
-              setState(() {
-                formKey.currentState.save();
-                final dataModel = DataModel.fromMap(formData);
-                final response = apiDriver.create(dataModel);
-                //_futureDataModel = create();
-              });
+              formKey.currentState.save();
+              final dataModel = DataModel.fromMap(formData);
+              final response = apiDriver.create(dataModel);
             },
           ),
         ),

@@ -2,7 +2,7 @@ class DataModel {
   String primaryId;
   String attrOne;
   String attrTwo;
-  String attrThr;
+  String attrThree;
   String attrFour;
   String attrFive;
   String attrSix;
@@ -12,7 +12,7 @@ class DataModel {
       {this.primaryId,
       this.attrOne,
       this.attrTwo,
-      this.attrThr,
+      this.attrThree,
       this.attrFour,
       this.attrFive,
       this.attrSix,
@@ -23,7 +23,7 @@ class DataModel {
       primaryId: map.containsKey('primaryId') ? (map['primaryId'] ?? '') : '',
       attrOne: map.containsKey('attrOne') ? (map['attrOne'] ?? '') : '',
       attrTwo: map.containsKey('attrTwo') ? (map['attrTwo'] ?? '') : '',
-      attrThr: map.containsKey('attrThr') ? (map['attrThr'] ?? '') : '',
+      attrThree: map.containsKey('attrThree') ? (map['attrThree'] ?? '') : '',
       attrFour: map.containsKey('attrFour') ? (map['attrFour'] ?? '') : '',
       attrFive: map.containsKey('attrFive') ? (map['attrFive'] ?? '') : '',
       attrSix: map.containsKey('attrSix') ? (map['attrSix'] ?? '') : '',

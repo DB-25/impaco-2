@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:impaco/src/apis/login_driver.dart';
 import 'package:impaco/src/component/input_field.dart';
 import 'package:impaco/src/component/password_field.dart';
 import 'package:impaco/src/models/api_response_model.dart';
@@ -13,13 +14,13 @@ class RegisterScreen extends StatefulWidget {
 class RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  ApiDriver apiDriver = new ApiDriver();
+  LoginDriver loginDriver = new LoginDriver();
   Future<ApiResponse<DataModel>> futureDataModel;
 
   var formData = {
     'attrOne': '',
     'attrTwo': '',
-    'attrThr': '',
+    'attrThree': '',
     'attrFour': '',
     'attrFive': '',
     'attrSix': '',
@@ -66,19 +67,19 @@ class RegisterScreenState extends State<RegisterScreen> {
                         hintText: "Confirm Password",
                         icon: Icons.face,
                         validator: passwordValidator("Confirm password must not be empty"),
-                        onSaved: (val) => formData['attrThr'] = val,
+                        onSaved: (val) => formData['confirmPassword'] = val,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20),
                       child: InputField(
-                        hintText: "Referral Code",
+                        hintText: "Contact Number",
                         icon: Icons.face,
-                        validator: passwordValidator("Referral code must not be empty"),
-                        onSaved: (val) => formData['attrThr'] = val,
+                        validator: emptyValidator("Contact number must not be empty"),
+                        onSaved: (val) => formData['attrFour'] = val,
                       ),
                     ),
-                    submitButton(apiDriver),
+                    submitButton(),
                   ],
                 ),
               ),
@@ -129,7 +130,7 @@ class RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget submitButton(ApiDriver apiDriver) {
+  Widget submitButton() {
     return Column(
       children: <Widget>[
         RaisedButton(
@@ -150,14 +151,12 @@ class RegisterScreenState extends State<RegisterScreen> {
           onPressed: () async {
             formKey.currentState.save();
             final dataModel = DataModel.fromMap(formData);
-            futureDataModel = apiDriver.create(dataModel);
-            FutureBuilder(
-              future: futureDataModel,
-              builder: (context, snapshot) {
-                print(snapshot.data);
-                return snapshot.data;
-              },
-            );
+            final response = await loginDriver.create(dataModel);
+            if (response.status) {
+
+            }else {
+
+            }
           },
         ),
       ],

@@ -10,15 +10,6 @@ class ResultScreen extends StatefulWidget {
 
 class ResultScreenState extends State<ResultScreen> {
   ApiDriver apiDriver = new ApiDriver();
-  Future<List<DataModel>> futureData;
-  final List<String> items = ['apple', 'banana'];
-
-  @override
-  void initState() {
-    super.initState();
-    futureData = apiDriver.read();
-    //for (var item in items)
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +22,7 @@ class ResultScreenState extends State<ResultScreen> {
             children: <Widget>[
               titleTag(),
               FutureBuilder(
-                future: futureData,
+                future: apiDriver.read(),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<DataModel>> snapshot) {
                   switch (snapshot.connectionState) {

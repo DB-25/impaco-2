@@ -17,8 +17,8 @@ class LoginScreenState extends State<LoginScreen> {
   Future<DataModel> futureDataModel;
 
   var formData = {
-    'email': '',
-    'password': '',
+    'attrOne': '',
+    'attrTwo': '',
   };
 
   @override
@@ -44,7 +44,7 @@ class LoginScreenState extends State<LoginScreen> {
                         hintText: "Email",
                         icon: Icons.face,
                         validator: emptyValidator("Email must not be empty"),
-                        onSaved: (val) => formData['email'] = val,
+                        onSaved: (val) => formData['attrOne'] = val,
                       ),
                     ),
                     Padding(
@@ -53,7 +53,7 @@ class LoginScreenState extends State<LoginScreen> {
                         hintText: "Password",
                         icon: Icons.face,
                         validator: passwordValidator("Password must not be empty"),
-                        onSaved: (val) => formData['password'] = val,
+                        onSaved: (val) => formData['attrTwo'] = val,
                       ),
                     ),
                     submitButton(apiDriver),
