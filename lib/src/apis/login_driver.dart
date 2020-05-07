@@ -15,15 +15,18 @@ class LoginDriver {
       body: jsonEncode(<String, String>{
         'attrOne': dataModel.attrOne,
         'attrTwo': dataModel.attrTwo,
-        'attrThree': dataModel.attrThree,
+        'confirmPassword': dataModel.attrThree,
         'attrFour': dataModel.attrFour,
         'attrFive': dataModel.attrFive,
         'attrSix': dataModel.attrSix,
         'status': dataModel.status,
       }),
     );
+    Map<String, dynamic> responseMap = jsonDecode(response.body);
+    print(response.statusCode);
     if (response.statusCode != 200) {
-      throw Exception('Failed to save data');
+      return ApiResponse.fromMap(responseMap);
+      //throw Exception('Failed to save data');
     } else {
       Map<String, dynamic> responseMap = jsonDecode(response.body);
       if (!responseMap['status']) {
@@ -34,16 +37,18 @@ class LoginDriver {
     }
   }
 
-  Future<List<DataModel>> login() async {
+  Future<ApiResponse<DataModel>> login(DataModel dataModel) async {
     final response = await http.post(
       Base_Url+'auth/login',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'accessToken': 'dfgdh',
       },
-      body: jsonEncode(<String, String>{}),
+      body: jsonEncode(<String, String>{
+        'attrOne': dataModel.attrOne,
+        'attrTwo': dataModel.attrTwo,
+      }),
     );
-    //final response = await http.get('http://145.239.92.37:8080/fagnum-api/feeder/read');
     if (response.statusCode != 200) {
       throw Exception('Failed to load data model');
     } else {
@@ -51,11 +56,11 @@ class LoginDriver {
       if (!responseMap['status']) {
         throw Exception('Failed to load data model');
       } else {
-        List<DataModel> dataModelList = [];
-        for (var dataModel in responseMap['listData']) {
-          dataModelList.add(DataModel.fromMap(dataModel));
+        print(responseMap['data']);
+        for (var data in responseMap['data']) {
+          print(data['accessToken']);
         }
-        return dataModelList;
+        return ApiResponse.fromMap(responseMap);
       }
     }
   }

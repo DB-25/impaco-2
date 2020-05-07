@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:impaco/src/apis/login_driver.dart';
 import 'package:impaco/src/component/input_field.dart';
 import 'package:impaco/src/component/password_field.dart';
+import 'package:impaco/src/models/api_response_model.dart';
 import 'package:impaco/src/models/data_model.dart';
 import 'package:impaco/src/apis/api_driver.dart';
 import 'package:impaco/src/screens/register_screen.dart';
+import 'package:impaco/src/screens/result_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -13,8 +16,8 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  ApiDriver apiDriver = new ApiDriver();
-  Future<DataModel> futureDataModel;
+  LoginDriver loginDriver = new LoginDriver();
+  Future<ApiResponse<DataModel>> futureDataModel;
 
   var formData = {
     'attrOne': '',
@@ -56,7 +59,7 @@ class LoginScreenState extends State<LoginScreen> {
                         onSaved: (val) => formData['attrTwo'] = val,
                       ),
                     ),
-                    submitButton(apiDriver),
+                    submitButton(),
                     Container(
                       margin: EdgeInsets.only(bottom: 20),
                     ),
@@ -97,7 +100,7 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget submitButton(ApiDriver apiDriver) {
+  Widget submitButton() {
     return Row(
       children: <Widget>[
         Column(
@@ -118,12 +121,15 @@ class LoginScreenState extends State<LoginScreen> {
                 borderRadius: BorderRadius.circular(10),
               ),
               onPressed: () async {
-                setState(() {
-                  formKey.currentState.save();
-                  final dataModel = DataModel.fromMap(formData);
-                  final response = apiDriver.create(dataModel);
-                  //_futureDataModel = create();
-                });
+                formKey.currentState.save();
+                final dataModel = DataModel.fromMap(formData);
+                final response = await loginDriver.login(dataModel);
+                if(response.status) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ResultScreen()),
+                  );
+                }
               },
             ),
           ],

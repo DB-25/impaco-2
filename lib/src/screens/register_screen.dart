@@ -67,7 +67,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                         hintText: "Confirm Password",
                         icon: Icons.face,
                         validator: passwordValidator("Confirm password must not be empty"),
-                        onSaved: (val) => formData['confirmPassword'] = val,
+                        onSaved: (val) => formData['attrThree'] = val,
                       ),
                     ),
                     Padding(
@@ -151,11 +151,35 @@ class RegisterScreenState extends State<RegisterScreen> {
           onPressed: () async {
             formKey.currentState.save();
             final dataModel = DataModel.fromMap(formData);
+            Container(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
             final response = await loginDriver.create(dataModel);
+            print(response.status);
             if (response.status) {
-
+              return AlertDialog(
+                  title: Text('Prompt'),
+                  content: SingleChildScrollView(
+                    child: ListBody(
+                    children: <Widget>[
+                      Text('Your are successfully registered.'),
+                    ],
+                    ),
+                  )
+              );
             }else {
-
+              return AlertDialog(
+                  title: Text('Prompt'),
+                  content: SingleChildScrollView(
+                    child: ListBody(
+                      children: <Widget>[
+                        Text('Please try again.'),
+                      ],
+                    ),
+                  )
+              );
             }
           },
         ),
