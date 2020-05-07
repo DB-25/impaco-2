@@ -4,9 +4,10 @@ import 'package:impaco/src/component/input_field.dart';
 import 'package:impaco/src/component/password_field.dart';
 import 'package:impaco/src/models/api_response_model.dart';
 import 'package:impaco/src/models/data_model.dart';
-import 'package:impaco/src/apis/api_driver.dart';
 import 'package:impaco/src/screens/register_screen.dart';
 import 'package:impaco/src/screens/result_screen.dart';
+
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -127,7 +128,7 @@ class LoginScreenState extends State<LoginScreen> {
                 if(response.status) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ResultScreen()),
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
                   );
                 }
               },

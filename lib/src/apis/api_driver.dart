@@ -3,16 +3,23 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:impaco/src/models/api_response_model.dart';
 import 'package:impaco/src/models/data_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiDriver {
+
+  final String Base_Url = 'http://145.239.92.37:8080/fagnum-api/';
+  final String companyId = 'sggsdg';
+
   Future<ApiResponse<DataModel>> create(DataModel dataModel) async {
+    final prefs = await SharedPreferences.getInstance();
     final http.Response response = await http.post(
-      'http://145.239.92.37:8080/fagnum-api/feeder/create',
+      Base_Url+'classes/create',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'accessToken': 'dfgdh',
+        'Authorization': prefs.getString('accessToken'),
       },
       body: jsonEncode(<String, String>{
+        'companyId': companyId,
         'attrOne': dataModel.attrOne,
         'attrTwo': dataModel.attrTwo,
         'attrThree': dataModel.attrThree,
@@ -22,6 +29,8 @@ class ApiDriver {
         'status': dataModel.status,
       }),
     );
+    print(response.statusCode);
+    print(response.body);
     if (response.statusCode != 200) {
       throw Exception('Failed to save data');
     } else {
@@ -35,15 +44,20 @@ class ApiDriver {
   }
 
   Future<List<DataModel>> read() async {
+    final prefs = await SharedPreferences.getInstance();
     final response = await http.post(
-      'http://145.239.92.37:8080/fagnum-api/feeder/read',
+      Base_Url+'classes/read',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'accessToken': 'dfgdh',
+        'Authorization': prefs.getString('accessToken'),
       },
-      body: jsonEncode(<String, String>{}),
+      body: jsonEncode(<String, String>{
+        'companyId': companyId,
+      }),
     );
     //final response = await http.get('http://145.239.92.37:8080/fagnum-api/feeder/read');
+    print(response.statusCode);
+    print(response.body);
     if (response.statusCode != 200) {
       throw Exception('Failed to load data model');
     } else {
