@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ApiDriver {
 
   final String Base_Url = 'http://145.239.92.37:8080/fagnum-api/';
-  final String companyId = 'sggsdg';
+  final String companyId = '544ad65411d7182b4d1db6a525114b6b572b6eb7';
 
   Future<ApiResponse<DataModel>> create(DataModel dataModel) async {
     final prefs = await SharedPreferences.getInstance();
@@ -20,6 +20,7 @@ class ApiDriver {
       },
       body: jsonEncode(<String, String>{
         'companyId': companyId,
+        'emailId': prefs.getString('emailId'),
         'attrOne': dataModel.attrOne,
         'attrTwo': dataModel.attrTwo,
         'attrThree': dataModel.attrThree,
