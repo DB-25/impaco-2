@@ -22,7 +22,7 @@ class RegisterScreenState extends State<RegisterScreen> {
     'attrTwo': '',
     'attrThree': '',
     'attrFour': '',
-    'attrFive': '',
+    'attrFive': 'Student',
     'attrSix': '',
   };
 
@@ -47,7 +47,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                       padding: const EdgeInsets.only(bottom: 20),
                       child: InputField(
                         hintText: "Email",
-                        icon: Icons.face,
+                        icon: Icons.mail,
                         validator: emptyValidator("Email must not be empty"),
                         onSaved: (val) => formData['attrOne'] = val,
                       ),
@@ -56,8 +56,9 @@ class RegisterScreenState extends State<RegisterScreen> {
                       padding: const EdgeInsets.only(bottom: 20),
                       child: PasswordField(
                         hintText: "Password",
-                        icon: Icons.face,
-                        validator: passwordValidator("Password must not be empty"),
+                        icon: Icons.lock,
+                        validator:
+                            passwordValidator("Password must not be empty"),
                         onSaved: (val) => formData['attrTwo'] = val,
                       ),
                     ),
@@ -65,8 +66,9 @@ class RegisterScreenState extends State<RegisterScreen> {
                       padding: const EdgeInsets.only(bottom: 20),
                       child: PasswordField(
                         hintText: "Confirm Password",
-                        icon: Icons.face,
-                        validator: passwordValidator("Confirm password must not be empty"),
+                        icon: Icons.lock,
+                        validator: passwordValidator(
+                            "Confirm password must not be empty"),
                         onSaved: (val) => formData['attrThree'] = val,
                       ),
                     ),
@@ -74,9 +76,51 @@ class RegisterScreenState extends State<RegisterScreen> {
                       padding: const EdgeInsets.only(bottom: 20),
                       child: InputField(
                         hintText: "Contact Number",
-                        icon: Icons.face,
-                        validator: emptyValidator("Contact number must not be empty"),
+                        icon: Icons.contact_phone,
+                        validator:
+                            emptyValidator("Contact number must not be empty"),
                         onSaved: (val) => formData['attrFour'] = val,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Container(
+                        height: 55.0,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.2),
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: DropdownButton<String>(
+                          value: formData['attrFive'],
+                          icon: Icon(Icons.arrow_downward),
+                          iconSize: 24,
+                          elevation: 16,
+                          dropdownColor: Color(0xFF2b2e44),
+                          isExpanded: true,
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white,
+                          ),
+                          underline: Container(
+                            height: 2,
+                            color: Color(0xFF2b2e44),
+                          ),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              formData['attrFive'] = newValue;
+                            });
+                          },
+                          items: <String>['Student', 'Teacher']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Center(child: Text(value)),
+                            );
+                          }).toList(),
+                        ),
                       ),
                     ),
                     submitButton(),
@@ -163,13 +207,12 @@ class RegisterScreenState extends State<RegisterScreen> {
                   title: Text('Prompt'),
                   content: SingleChildScrollView(
                     child: ListBody(
-                    children: <Widget>[
-                      Text('Your are successfully registered.'),
-                    ],
+                      children: <Widget>[
+                        Text('Your are successfully registered.'),
+                      ],
                     ),
-                  )
-              );
-            }else {
+                  ));
+            } else {
               return AlertDialog(
                   title: Text('Prompt'),
                   content: SingleChildScrollView(
@@ -178,8 +221,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                         Text('Please try again.'),
                       ],
                     ),
-                  )
-              );
+                  ));
             }
           },
         ),

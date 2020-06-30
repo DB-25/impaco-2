@@ -9,33 +9,33 @@ import 'login_screen.dart';
 class HomeScreen extends StatelessWidget {
   final List<Map<String, dynamic>> homeDatas = [
     {
-      'name': 'Hungry',
-      'image': 'assets/hungry_icon.png',
+      'name': 'Student',
+      'image': 'assets/student_icon.png',
       'color': Color(0xFF52A088),
       'description': 'Desc 1',
-      'navigate': FormScreen(),
-    },
-    {
-      'name': 'Feeder',
-      'image': 'assets/feed_people.png',
-      'color': Color(0xFFDB6E8D),
-      'description': 'Desc 2',
       'navigate': ResultScreen(),
     },
     {
-      'name': 'Login',
-      'image': 'assets/login.png',
-      'color': Color(0xFF678CC0),
-      'description': 'Desc 3',
-      'navigate': LoginScreen()
+      'name': 'Teacher',
+      'image': 'assets/teacher_icon.png',
+      'color': Color(0xFFDB6E8D),
+      'description': 'Desc 2',
+      'navigate': FormScreen(),
     },
-    {
-      'name': 'Register',
-      'image': 'assets/signup_up.png',
-      'color': Color(0xFFC26CC5),
-      'description': 'Desc 4',
-      'navigate': RegisterScreen(),
-    }
+//    {
+//      'name': 'Login',
+//      'image': 'assets/login.png',
+//      'color': Color(0xFF678CC0),
+//      'description': 'Desc 3',
+//      'navigate': LoginScreen()
+//    },
+//    {
+//      'name': 'Register',
+//      'image': 'assets/signup_up.png',
+//      'color': Color(0xFFC26CC5),
+//      'description': 'Desc 4',
+//      'navigate': RegisterScreen(),
+//    }
   ];
 
   int yRatio = 120;
@@ -105,13 +105,15 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Image.asset(
-                  data['image'],
-                  width: 34,
-                  height: 32,
+                Expanded(
+                  child: Image.asset(
+                    data['image'],
+//                  width: 34,
+//                  height: 32,
+                  ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -28,6 +28,7 @@ class ResultScreenState extends State<ResultScreen> {
                   switch (snapshot.connectionState) {
                     case ConnectionState.done:
                       final response = snapshot.data;
+//                      print(response);  TODO:here response is null causing the screen to crash
                       return firstElement(response);
                       break;
                     default:
@@ -77,7 +78,7 @@ class ResultScreenState extends State<ResultScreen> {
     return ListView.builder(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
-        itemCount: dataModel.length,
+        itemCount: dataModel == null ? 0 : dataModel.length,
         itemBuilder: (context, int index) {
           return AspectRatio(
             aspectRatio: 353 / 110,
@@ -127,7 +128,6 @@ class ResultScreenState extends State<ResultScreen> {
               ),
             ),
           );
-        }
-    );
+        });
   }
 }

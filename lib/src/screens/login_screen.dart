@@ -46,7 +46,7 @@ class LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.only(bottom: 20),
                       child: InputField(
                         hintText: "Email",
-                        icon: Icons.face,
+                        icon: Icons.email,
                         validator: emptyValidator("Email must not be empty"),
                         onSaved: (val) => formData['attrOne'] = val,
                       ),
@@ -55,8 +55,9 @@ class LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.only(bottom: 20),
                       child: PasswordField(
                         hintText: "Password",
-                        icon: Icons.face,
-                        validator: passwordValidator("Password must not be empty"),
+                        icon: Icons.lock,
+                        validator:
+                            passwordValidator("Password must not be empty"),
                         onSaved: (val) => formData['attrTwo'] = val,
                       ),
                     ),
@@ -79,24 +80,30 @@ class LoginScreenState extends State<LoginScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: Column(children: <Widget>[
+        SizedBox(
+          height: 25.0,
+        ),
         Text(
           "Login",
           style: TextStyle(
             color: Colors.white,
-            fontSize: 28,
+            fontSize: 45,
             fontWeight: FontWeight.bold,
           ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-          child: Text(
-            "Register as a feeder or a help seeker.",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-            ),
-          ),
-        )
+        SizedBox(
+          height: 75.0,
+        ),
+//        Padding(
+//          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+//          child: Text(
+//            "Register as a feeder or a help seeker.",
+//            style: TextStyle(
+//              color: Colors.white,
+//              fontSize: 14,
+//            ),
+//          ),
+//        ),
       ]),
     );
   }
@@ -125,7 +132,7 @@ class LoginScreenState extends State<LoginScreen> {
                 formKey.currentState.save();
                 final dataModel = DataModel.fromMap(formData);
                 final response = await loginDriver.login(dataModel);
-                if(response.status) {
+                if (response.status) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -142,7 +149,8 @@ class LoginScreenState extends State<LoginScreen> {
   Widget signUpButton() {
     return Row(
       children: <Widget>[
-        Text("New to Educato ? ",
+        Text(
+          "New to Impaco ? ",
           style: TextStyle(
             color: Colors.white,
             fontSize: 16,
@@ -151,7 +159,11 @@ class LoginScreenState extends State<LoginScreen> {
         Padding(padding: EdgeInsets.only(left: 10)),
         RaisedButton(
           color: Colors.blue,
-          child: Text('Sign up',
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(
+            'Sign up',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
