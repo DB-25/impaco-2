@@ -92,34 +92,38 @@ class RegisterScreenState extends State<RegisterScreen> {
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: DropdownButton<String>(
-                          value: formData['attrFive'],
-                          icon: Icon(Icons.arrow_downward),
-                          iconSize: 24,
-                          elevation: 16,
-                          dropdownColor: Color(0xFF2b2e44),
-                          isExpanded: true,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: DropdownButton<String>(
+                            iconEnabledColor: Colors.white,
+                            value: formData['attrFive'],
+                            icon: Icon(Icons.keyboard_arrow_down),
+                            iconSize: 24,
+                            elevation: 16,
+                            dropdownColor: Color(0xFF2b2e44),
+                            isExpanded: true,
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white,
+                            ),
+                            underline: Container(
+                              height: 2,
+                              color: Color(0xFF2b2e44),
+                            ),
+                            onChanged: (String newValue) {
+                              setState(() {
+                                formData['attrFive'] = newValue;
+                              });
+                            },
+                            items: <String>['Student', 'Teacher']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
                           ),
-                          underline: Container(
-                            height: 2,
-                            color: Color(0xFF2b2e44),
-                          ),
-                          onChanged: (String newValue) {
-                            setState(() {
-                              formData['attrFive'] = newValue;
-                            });
-                          },
-                          items: <String>['Student', 'Teacher']
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Center(child: Text(value)),
-                            );
-                          }).toList(),
                         ),
                       ),
                     ),
@@ -194,6 +198,14 @@ class RegisterScreenState extends State<RegisterScreen> {
           ),
           onPressed: () async {
             formKey.currentState.save();
+            if (!formKey.currentState.validate()) return;
+            if (formData['attrTwo'] != formData['attrThree']) {
+              _showMyDialog(
+                  title: 'Check Password',
+                  body: 'Please check your password.',
+                  goToLogin: false);
+              return;
+            }
             final dataModel = DataModel.fromMap(formData);
             Container(
               child: Center(
@@ -201,31 +213,50 @@ class RegisterScreenState extends State<RegisterScreen> {
               ),
             );
             final response = await loginDriver.create(dataModel);
-            print(response.status);
+//            print(response.status);
             if (response.status) {
-              return AlertDialog(
-                  title: Text('Prompt'),
-                  content: SingleChildScrollView(
-                    child: ListBody(
-                      children: <Widget>[
-                        Text('Your are successfully registered.'),
-                      ],
-                    ),
-                  ));
+              _showMyDialog(
+                  title: 'Registered Successfully',
+                  body: 'Please login.',
+                  goToLogin: true);
             } else {
-              return AlertDialog(
-                  title: Text('Prompt'),
-                  content: SingleChildScrollView(
-                    child: ListBody(
-                      children: <Widget>[
-                        Text('Please try again.'),
-                      ],
-                    ),
-                  ));
+              _showMyDialog(
+                  title: 'Registration Failed',
+                  body: 'Please try again later.',
+                  goToLogin: false);
             }
           },
         ),
       ],
+    );
+  }
+
+  Future<void> _showMyDialog(
+      {String title, String body, bool goToLogin}) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(body),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                if (goToLogin) Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

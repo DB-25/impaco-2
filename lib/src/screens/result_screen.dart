@@ -28,7 +28,8 @@ class ResultScreenState extends State<ResultScreen> {
                   switch (snapshot.connectionState) {
                     case ConnectionState.done:
                       final response = snapshot.data;
-//                      print(response);  TODO:here response is null causing the screen to crash
+                      print(
+                          response); //TODO:here response is null causing the screen to crash
                       return firstElement(response);
                       break;
                     default:
@@ -40,7 +41,7 @@ class ResultScreenState extends State<ResultScreen> {
                   }
                 },
               ),
-              //for (var item in items) firstElement(),
+//              for (var item in items) firstElement(),
             ],
           ),
         ),

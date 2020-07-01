@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
         "Impaco",
         style: TextStyle(
           color: Colors.white,
-          fontSize: 28,
+          fontSize: 50,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -142,54 +142,54 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget secondButton() {
-    return AspectRatio(
-      aspectRatio: 353 / yRatio,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color(0xFF52A088),
-          borderRadius: BorderRadius.circular(25),
-          boxShadow: [
-            BoxShadow(
-                offset: Offset(2, 4),
-                color: Colors.black.withOpacity(0.5),
-                blurRadius: 4),
-          ],
-        ),
-        child: Container(
-          margin: const EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Image.asset(
-                "assets/hungry_icon.png",
-                width: 34,
-                height: 32,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-                child: Text(
-                  "Hungry",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                child: Text(
-                  "There have been lot of food shortages in these trying times, Click here if you are in need.",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 8,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+//  Widget secondButton() {
+//    return AspectRatio(
+//      aspectRatio: 353 / yRatio,
+//      child: Container(
+//        decoration: BoxDecoration(
+//          color: Color(0xFF52A088),
+//          borderRadius: BorderRadius.circular(25),
+//          boxShadow: [
+//            BoxShadow(
+//                offset: Offset(2, 4),
+//                color: Colors.black.withOpacity(0.5),
+//                blurRadius: 4),
+//          ],
+//        ),
+//        child: Container(
+//          margin: const EdgeInsets.all(14),
+//          child: Column(
+//            crossAxisAlignment: CrossAxisAlignment.start,
+//            children: <Widget>[
+//              Image.asset(
+//                "assets/hungry_icon.png",
+//                width: 34,
+//                height: 32,
+//              ),
+//              Padding(
+//                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+//                child: Text(
+//                  "Hungry",
+//                  style: TextStyle(
+//                    color: Colors.white,
+//                    fontSize: 14,
+//                  ),
+//                ),
+//              ),
+//              Padding(
+//                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+//                child: Text(
+//                  "There have been lot of food shortages in these trying times, Click here if you are in need.",
+//                  style: TextStyle(
+//                    color: Colors.white,
+//                    fontSize: 8,
+//                  ),
+//                ),
+//              )
+//            ],
+//          ),
+//        ),
+//      ),
+//    );
+//  }
 }

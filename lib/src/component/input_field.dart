@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 FormFieldValidator<String> emptyValidator(String errorString) {
   return (val) {
-    if (val.length == 0) return errorString;
+//    if (val == null) print(null);
+    if (val.isEmpty) return errorString;
     return null;
   };
 }

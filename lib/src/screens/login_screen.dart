@@ -130,6 +130,7 @@ class LoginScreenState extends State<LoginScreen> {
               ),
               onPressed: () async {
                 formKey.currentState.save();
+                if (!formKey.currentState.validate()) return;
                 final dataModel = DataModel.fromMap(formData);
                 final response = await loginDriver.login(dataModel);
                 if (response.status) {
@@ -137,6 +138,10 @@ class LoginScreenState extends State<LoginScreen> {
                     context,
                     MaterialPageRoute(builder: (context) => HomeScreen()),
                   );
+                } else {
+                  _showMyDialog(
+                      title: 'Login Failed',
+                      body: 'Please check your email and password.');
                 }
               },
             ),
@@ -177,6 +182,33 @@ class LoginScreenState extends State<LoginScreen> {
           },
         ),
       ],
+    );
+  }
+
+  Future<void> _showMyDialog({String title, String body}) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(body),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -5,15 +5,13 @@ import 'package:impaco/src/models/api_response_model.dart';
 import 'package:impaco/src/models/data_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class LoginDriver {
-
   final String Base_Url = 'http://145.239.92.37:8080/auth-app/';
   final String companyId = '544ad65411d7182b4d1db6a525114b6b572b6eb7';
 
   Future<ApiResponse<DataModel>> create(DataModel dataModel) async {
     final http.Response response = await http.post(
-      Base_Url+'auth/signup',
+      Base_Url + 'auth/signup',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -46,7 +44,7 @@ class LoginDriver {
   Future<ApiResponse<DataModel>> login(DataModel dataModel) async {
     final prefs = await SharedPreferences.getInstance();
     final response = await http.post(
-      Base_Url+'auth/login',
+      Base_Url + 'auth/login',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'accessToken': 'dfgdh',
@@ -57,8 +55,10 @@ class LoginDriver {
         'attrTwo': dataModel.attrTwo,
       }),
     );
+    print(response.statusCode);
     if (response.statusCode != 200) {
       throw Exception('Failed to load data model');
+      return null; //TODO:fix exception handling
     } else {
       Map<String, dynamic> responseMap = jsonDecode(response.body);
       if (!responseMap['status']) {
@@ -75,5 +75,4 @@ class LoginDriver {
       }
     }
   }
-
 }
