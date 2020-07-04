@@ -4,7 +4,7 @@ import 'package:impaco/src/component/input_field.dart';
 import 'package:impaco/src/component/password_field.dart';
 import 'package:impaco/src/models/api_response_model.dart';
 import 'package:impaco/src/models/data_model.dart';
-import 'package:impaco/src/apis/api_driver.dart';
+import 'package:impaco/src/models/register_model.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -18,12 +18,11 @@ class RegisterScreenState extends State<RegisterScreen> {
   Future<ApiResponse<DataModel>> futureDataModel;
 
   var formData = {
-    'attrOne': '',
-    'attrTwo': '',
-    'attrThree': '',
-    'attrFour': '',
-    'attrFive': 'Student',
-    'attrSix': '',
+    'email': '',
+    'password': '',
+    'confirmPassword': '',
+    'contactNo': '',
+    'userType': 'Student',
   };
 
   @override
@@ -49,7 +48,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                         hintText: "Email",
                         icon: Icons.mail,
                         validator: emailValidator(),
-                        onSaved: (val) => formData['attrOne'] = val,
+                        onSaved: (val) => formData['email'] = val,
                       ),
                     ),
                     Padding(
@@ -59,7 +58,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                         icon: Icons.lock,
                         validator:
                             passwordValidator("Password must not be empty"),
-                        onSaved: (val) => formData['attrTwo'] = val,
+                        onSaved: (val) => formData['password'] = val,
                       ),
                     ),
                     Padding(
@@ -69,7 +68,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                         icon: Icons.lock,
                         validator: passwordValidator(
                             "Confirm password must not be empty"),
-                        onSaved: (val) => formData['attrThree'] = val,
+                        onSaved: (val) => formData['confirmPassword'] = val,
                       ),
                     ),
                     Padding(
@@ -79,7 +78,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                         icon: Icons.contact_phone,
                         validator:
                             emptyValidator("Contact number must not be empty"),
-                        onSaved: (val) => formData['attrFour'] = val,
+                        onSaved: (val) => formData['contactNo'] = val,
                       ),
                     ),
                     Padding(
@@ -96,7 +95,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: DropdownButton<String>(
                             iconEnabledColor: Colors.white,
-                            value: formData['attrFive'],
+                            value: formData['userType'],
                             icon: Icon(Icons.keyboard_arrow_down),
                             iconSize: 24,
                             elevation: 16,
@@ -113,7 +112,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                             ),
                             onChanged: (String newValue) {
                               setState(() {
-                                formData['attrFive'] = newValue;
+                                formData['userType'] = newValue;
                               });
                             },
                             items: <String>['Student', 'Teacher']
@@ -153,7 +152,7 @@ class RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 100),
+              padding: EdgeInsets.only(left: 80),
               child: IconButton(
                 icon: Icon(Icons.close),
                 onPressed: () {
@@ -199,20 +198,20 @@ class RegisterScreenState extends State<RegisterScreen> {
           onPressed: () async {
             formKey.currentState.save();
             if (!formKey.currentState.validate()) return;
-            if (formData['attrTwo'] != formData['attrThree']) {
+            if (formData['password'] != formData['confirmPassword']) {
               _showMyDialog(
                   title: 'Check Password',
                   body: 'Please check your password.',
                   goToLogin: false);
               return;
             }
-            final dataModel = DataModel.fromMap(formData);
+            final registerModel = RegisterModel.fromMap(formData);
             Container(
               child: Center(
                 child: CircularProgressIndicator(),
               ),
             );
-            final response = await loginDriver.create(dataModel);
+            final response = await loginDriver.create(registerModel);
 //            print(response.status);
             if (response.status) {
               _showMyDialog(

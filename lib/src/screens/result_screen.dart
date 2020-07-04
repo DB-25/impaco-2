@@ -1,11 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:impaco/src/models/data_model.dart';
 import 'package:impaco/src/apis/api_driver.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:async';
 import 'package:intl/intl.dart';
 
 class ResultScreen extends StatefulWidget {
@@ -45,7 +43,6 @@ class ResultScreenState extends State<ResultScreen> {
                   }
                 },
               ),
-//              for (var item in items) firstElement(),
             ],
           ),
         ),
@@ -89,7 +86,7 @@ class ResultScreenState extends State<ResultScreen> {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: AspectRatio(
-                aspectRatio: 3.2 / 1.2,
+                aspectRatio: 3.2 / 1.4,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Color(0xFF678CC0),
@@ -130,53 +127,55 @@ class ResultScreenState extends State<ResultScreen> {
                             ],
                           ),
                         ),
-                        Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
 //                          Text(dataModel[index].attrOne),
-                              Text(
-                                dataModel[index].name,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                ),
-                              ),
-                              Text(
-                                dataModel[index].subject,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                ),
-                              ),
-                              Text(
-                                time(dataModel[index].startTime),
-                                style: TextStyle(
+                                Text(
+                                  dataModel[index].name,
+                                  style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 17,
-                                    fontWeight: FontWeight.w900),
-                              ),
-                              Text(
-                                dataModel[index].appName,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () =>
-                                    launch(dataModel[index].meetingLink),
-                                child: Text(
-                                  dataModel[index].meetingLink,
-                                  style: TextStyle(
-                                    color: Color(0xFF80deea),
-                                    fontSize: 17,
-                                    decoration: TextDecoration.underline,
                                   ),
                                 ),
-                              ),
-                            ],
+                                Text(
+                                  dataModel[index].subject,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                                Text(
+                                  time(dataModel[index].startTime),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w900),
+                                ),
+                                Text(
+                                  dataModel[index].appName,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () =>
+                                      launch(dataModel[index].meetingLink),
+                                  child: Text(
+                                    dataModel[index].meetingLink,
+                                    style: TextStyle(
+                                      color: Color(0xFF80deea),
+                                      fontSize: 17,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

@@ -3,28 +3,30 @@ import 'package:http/http.dart' as http;
 import 'package:impaco/src/models/api_response_model.dart';
 import 'package:impaco/src/models/data_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:impaco/src/models/login_model.dart';
+import 'package:impaco/src/models/register_model.dart';
 
 class LoginDriver {
-  final String Base_Url = 'http://145.239.92.37:8080/auth-app/';
-  final String companyId = '544ad65411d7182b4d1db6a525114b6b572b6eb7';
+  final String baseUrl = 'http://145.239.92.37:8080/auth-app/';
+  final String companyId = 'ff8081817044351501715a08f5100006';
+  String userType;
 
-  Future<ApiResponse<DataModel>> create(DataModel dataModel) async {
+  Future<ApiResponse<DataModel>> create(RegisterModel registerModel) async {
     final http.Response response = await http.post(
-      Base_Url + 'auth/signup',
+      baseUrl + 'auth/signup',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
         'companyId': companyId,
-        'attrOne': dataModel.name,
-        'attrTwo': dataModel.subject,
-        'confirmPassword': dataModel.startDate,
-        'attrFour': dataModel.startTime,
-        'attrFive': dataModel.appName,
-        'attrSix': dataModel.meetingLink,
-        'status': dataModel.status,
+        'email': registerModel.email,
+        'password': registerModel.password,
+        'confirmPassword': registerModel.confirmPassword,
+        'contactNo': registerModel.contactNo,
+        'userType': registerModel.userType,
       }),
     );
+    print(response.statusCode);
     Map<String, dynamic> responseMap = jsonDecode(response.body);
     if (response.statusCode != 200) {
       return ApiResponse.fromMap(responseMap);
@@ -38,24 +40,23 @@ class LoginDriver {
     }
   }
 
-  Future<ApiResponse<DataModel>> login(DataModel dataModel) async {
+  Future<ApiResponse<DataModel>> login(LoginModel loginModel) async {
     final prefs = await SharedPreferences.getInstance();
     final response = await http.post(
-      Base_Url + 'auth/login',
+      baseUrl + 'auth/login',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'accessToken': 'dfgdh',
       },
       body: jsonEncode(<String, String>{
         'companyId': companyId,
-        'attrOne': dataModel.name,
-        'attrTwo': dataModel.subject,
+        'email': loginModel.email,
+        'password': loginModel.password,
       }),
     );
     print(response.statusCode);
     if (response.statusCode != 200) {
       throw Exception('Failed to load data model');
-      return null;
     } else {
       Map<String, dynamic> responseMap = jsonDecode(response.body);
       if (!responseMap['status']) {
@@ -63,11 +64,16 @@ class LoginDriver {
       } else {
         for (var data in responseMap['data']) {
           prefs.setString('accessToken', data['accessToken']);
-          prefs.setString('emailId', dataModel.name);
+          prefs.setString('emailId', loginModel.email);
           prefs.setString('userType', data['userType']);
+          userType = data['userType'];
         }
         return ApiResponse.fromMap(responseMap);
       }
     }
+  }
+
+  String getUserType() {
+    return userType;
   }
 }

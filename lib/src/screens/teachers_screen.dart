@@ -102,7 +102,7 @@ class TeachersScreenState extends State<TeachersScreen> {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: AspectRatio(
-                aspectRatio: 3.2 / 1.2,
+                aspectRatio: 3.2 / 1.4,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Color(0xFF678CC0),
@@ -143,53 +143,55 @@ class TeachersScreenState extends State<TeachersScreen> {
                             ],
                           ),
                         ),
-                        Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
 //                          Text(dataModel[index].attrOne),
-                              Text(
-                                dataModel[index].name,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                ),
-                              ),
-                              Text(
-                                dataModel[index].subject,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                ),
-                              ),
-                              Text(
-                                time(dataModel[index].startTime),
-                                style: TextStyle(
+                                Text(
+                                  dataModel[index].name,
+                                  style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 17,
-                                    fontWeight: FontWeight.w900),
-                              ),
-                              Text(
-                                dataModel[index].appName,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () =>
-                                    launch(dataModel[index].meetingLink),
-                                child: Text(
-                                  dataModel[index].meetingLink,
-                                  style: TextStyle(
-                                    color: Color(0xFF80deea),
-                                    fontSize: 17,
-                                    decoration: TextDecoration.underline,
                                   ),
                                 ),
-                              ),
-                            ],
+                                Text(
+                                  dataModel[index].subject,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                                Text(
+                                  time(dataModel[index].startTime),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w900),
+                                ),
+                                Text(
+                                  dataModel[index].appName,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () =>
+                                      launch(dataModel[index].meetingLink),
+                                  child: Text(
+                                    dataModel[index].meetingLink,
+                                    style: TextStyle(
+                                      color: Color(0xFF80deea),
+                                      fontSize: 17,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

@@ -4,10 +4,10 @@ import 'package:impaco/src/component/input_field.dart';
 import 'package:impaco/src/component/password_field.dart';
 import 'package:impaco/src/models/api_response_model.dart';
 import 'package:impaco/src/models/data_model.dart';
+import 'package:impaco/src/models/login_model.dart';
 import 'package:impaco/src/screens/register_screen.dart';
 import 'package:impaco/src/screens/result_screen.dart';
-
-import 'home_screen.dart';
+import 'teachers_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -21,8 +21,8 @@ class LoginScreenState extends State<LoginScreen> {
   Future<ApiResponse<DataModel>> futureDataModel;
 
   var formData = {
-    'attrOne': '',
-    'attrTwo': '',
+    'email': '',
+    'password': '',
   };
 
   @override
@@ -47,8 +47,8 @@ class LoginScreenState extends State<LoginScreen> {
                       child: InputField(
                         hintText: "Email",
                         icon: Icons.email,
-                        validator: emailValidator(),
-                        onSaved: (val) => formData['attrOne'] = val,
+//                        validator: emailValidator(),
+                        onSaved: (val) => formData['email'] = val,
                       ),
                     ),
                     Padding(
@@ -58,7 +58,7 @@ class LoginScreenState extends State<LoginScreen> {
                         icon: Icons.lock,
                         validator:
                             passwordValidator("Password must not be empty"),
-                        onSaved: (val) => formData['attrTwo'] = val,
+                        onSaved: (val) => formData['password'] = val,
                       ),
                     ),
                     submitButton(),
@@ -94,16 +94,6 @@ class LoginScreenState extends State<LoginScreen> {
         SizedBox(
           height: 75.0,
         ),
-//        Padding(
-//          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-//          child: Text(
-//            "Register as a feeder or a help seeker.",
-//            style: TextStyle(
-//              color: Colors.white,
-//              fontSize: 14,
-//            ),
-//          ),
-//        ),
       ]),
     );
   }
@@ -131,13 +121,22 @@ class LoginScreenState extends State<LoginScreen> {
               onPressed: () async {
                 formKey.currentState.save();
                 if (!formKey.currentState.validate()) return;
-                final dataModel = DataModel.fromMap(formData);
-                final response = await loginDriver.login(dataModel);
+                final loginModel = LoginModel.fromMap(formData);
+                final response = await loginDriver.login(loginModel);
                 if (response.status) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
-                  );
+                  String userType = loginDriver.getUserType();
+                  print(userType);
+                  if (userType == "Student") {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ResultScreen()));
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TeachersScreen()));
+                  }
                 } else {
                   _showMyDialog(
                       title: 'Login Failed',
