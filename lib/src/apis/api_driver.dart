@@ -15,18 +15,17 @@ class ApiDriver {
       Base_Url + 'classes/create',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': prefs.getString('accessToken'),
+        'Authorization': "Bearer " + prefs.getString('accessToken'),
       },
       body: jsonEncode(<String, String>{
-        'companyId': companyId,
+        'name': dataModel.name,
+        'subject': dataModel.subject,
+        'startDate': dataModel.startDate,
+        'startTime': dataModel.startTime,
+        'appName': dataModel.appName,
+        'meetingLink': dataModel.meetingLink,
+        'status': "Active",
         'emailId': prefs.getString('emailId'),
-        'name': dataModel.attrOne,
-        'attrTwo': dataModel.attrTwo,
-        'attrThree': dataModel.attrThree,
-        'attrFour': dataModel.attrFour,
-        'attrFive': dataModel.attrFive,
-        'attrSix': dataModel.attrSix,
-        'status': dataModel.status,
       }),
     );
     print(response.statusCode);
@@ -49,10 +48,10 @@ class ApiDriver {
       Base_Url + 'classes/read',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': prefs.getString('accessToken'),
+        'Authorization': "Bearer " + prefs.getString('accessToken'),
       },
       body: jsonEncode(<String, String>{
-        'companyId': companyId,
+        'emailId': prefs.getString('emailId'),
       }),
     );
     //final response = await http.get('http://145.239.92.37:8080/fagnum-api/feeder/read');
@@ -66,7 +65,7 @@ class ApiDriver {
         throw Exception('Failed to load data model');
       } else {
         List<DataModel> dataModelList = [];
-        for (var dataModel in responseMap['listData']) {
+        for (var dataModel in responseMap['data']) {
           dataModelList.add(DataModel.fromMap(dataModel));
         }
         return dataModelList;

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:impaco/src/screens/register_screen.dart';
 import 'package:impaco/src/screens/result_screen.dart';
+import 'package:impaco/src/screens/teachers_screen.dart';
 
 import 'form_screen.dart';
 import 'login_screen.dart';
@@ -20,7 +21,7 @@ class HomeScreen extends StatelessWidget {
       'image': 'assets/teacher_icon.png',
       'color': Color(0xFFDB6E8D),
       'description': 'Desc 2',
-      'navigate': FormScreen(),
+      'navigate': TeachersScreen(),
     },
 //    {
 //      'name': 'Login',

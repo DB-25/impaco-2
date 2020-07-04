@@ -48,7 +48,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                       child: InputField(
                         hintText: "Email",
                         icon: Icons.mail,
-                        validator: emptyValidator("Email must not be empty"),
+                        validator: emailValidator(),
                         onSaved: (val) => formData['attrOne'] = val,
                       ),
                     ),

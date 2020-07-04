@@ -5,6 +5,7 @@ import 'package:impaco/src/apis/api_driver.dart';
 import 'package:impaco/src/component/input_field.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:impaco/src/models/api_response_model.dart';
 
 class FormScreen extends StatefulWidget {
   @override
@@ -18,12 +19,12 @@ class FormScreenState extends State<FormScreen> {
   Future<DataModel> futureDataModel;
 
   var formData = {
-    'attrOne': '',
-    'attrTwo': '',
-    'attrThree': '',
-    'attrFour': '',
-    'attrFive': 'Google Meet',
-    'attrSix': '',
+    'name': '',
+    'subject': '',
+    'startDate': '',
+    'startTime': '',
+    'appName': 'Google Meet',
+    'meetingLink': '',
   };
 
   @override
@@ -50,7 +51,7 @@ class FormScreenState extends State<FormScreen> {
                         icon: Icons.school,
                         validator:
                             emptyValidator("Class Name must not be empty"),
-                        onSaved: (val) => formData['attrOne'] = val,
+                        onSaved: (val) => formData['name'] = val,
                       ),
                     ),
                     Padding(
@@ -59,7 +60,7 @@ class FormScreenState extends State<FormScreen> {
                         hintText: "Subject",
                         icon: Icons.subject,
                         validator: emptyValidator("Subject must not be empty"),
-                        onSaved: (val) => formData['attrTwo'] = val,
+                        onSaved: (val) => formData['subject'] = val,
                       ),
                     ),
                     Padding(
@@ -79,12 +80,13 @@ class FormScreenState extends State<FormScreen> {
                                 minTime: DateTime(2020, 3, 5),
                                 maxTime: DateTime(2030, 6, 7),
                                 onConfirm: (date) {
-                              formData['attrThree'] =
-                                  DateFormat('yyyy-MM-dd ').format(date);
-                              formData['attrFour'] =
-                                  DateFormat('kk:mm').format(date);
-                              print(formData['attrThree']);
-                              print(formData['attrFour']);
+                              formData['startDate'] = DateFormat('dd-MMM-yyyy')
+                                  .format(date)
+                                  .toString();
+                              formData['startTime'] =
+                                  DateFormat('h:mm a').format(date).toString();
+                              print(formData['startDate']);
+                              print(formData['startTime']);
                             },
                                 currentTime: DateTime.now(),
                                 locale: LocaleType.en);
@@ -124,7 +126,7 @@ class FormScreenState extends State<FormScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: DropdownButton<String>(
                             iconEnabledColor: Colors.white,
-                            value: formData['attrFive'],
+                            value: formData['appName'],
                             icon: Icon(Icons.keyboard_arrow_down),
                             iconSize: 24,
                             elevation: 16,
@@ -141,7 +143,7 @@ class FormScreenState extends State<FormScreen> {
                             ),
                             onChanged: (String newValue) {
                               setState(() {
-                                formData['attrFive'] = newValue;
+                                formData['appName'] = newValue;
                               });
                             },
                             items: <String>[
@@ -166,7 +168,7 @@ class FormScreenState extends State<FormScreen> {
                         hintText: "Link",
                         icon: Icons.insert_link,
                         validator: emptyValidator("Link must not be empty"),
-                        onSaved: (val) => formData['attrSix'] = val,
+                        onSaved: (val) => formData['meetingLink'] = val,
                       ),
                     ),
                     submitButton(apiDriver),
@@ -305,14 +307,21 @@ class FormScreenState extends State<FormScreen> {
             onPressed: () async {
               formKey.currentState.save();
               if (!formKey.currentState.validate()) return;
-              if (formData['attrThree'] == '' || formData['attrFour'] == '') {
+              if (formData['startDate'] == '' || formData['startTime'] == '') {
                 _showMyDialog(
                     title: 'Failed',
                     body: 'Please choose a Date and Time.',
                     goToLogin: false);
               }
               final dataModel = DataModel.fromMap(formData);
-              final response = apiDriver.create(dataModel);
+              ApiResponse response = await apiDriver.create(dataModel);
+              if (response.message == 'Successfully Saved') {
+                _showMyDialog(
+                    title: 'Successfully Saved',
+                    body: 'Your Class has been Scheduled.',
+                    goToLogin: true);
+              }
+              print(response.message);
             },
           ),
         ),

@@ -47,7 +47,7 @@ class LoginScreenState extends State<LoginScreen> {
                       child: InputField(
                         hintText: "Email",
                         icon: Icons.email,
-                        validator: emptyValidator("Email must not be empty"),
+                        validator: emailValidator(),
                         onSaved: (val) => formData['attrOne'] = val,
                       ),
                     ),

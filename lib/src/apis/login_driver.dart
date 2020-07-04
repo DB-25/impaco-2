@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:impaco/src/models/api_response_model.dart';
 import 'package:impaco/src/models/data_model.dart';
@@ -17,20 +16,18 @@ class LoginDriver {
       },
       body: jsonEncode(<String, String>{
         'companyId': companyId,
-        'attrOne': dataModel.attrOne,
-        'attrTwo': dataModel.attrTwo,
-        'confirmPassword': dataModel.attrThree,
-        'attrFour': dataModel.attrFour,
-        'attrFive': dataModel.attrFive,
-        'attrSix': dataModel.attrSix,
+        'attrOne': dataModel.name,
+        'attrTwo': dataModel.subject,
+        'confirmPassword': dataModel.startDate,
+        'attrFour': dataModel.startTime,
+        'attrFive': dataModel.appName,
+        'attrSix': dataModel.meetingLink,
         'status': dataModel.status,
       }),
     );
     Map<String, dynamic> responseMap = jsonDecode(response.body);
-    //print(response.statusCode);
     if (response.statusCode != 200) {
       return ApiResponse.fromMap(responseMap);
-      //throw Exception('Failed to save data');
     } else {
       Map<String, dynamic> responseMap = jsonDecode(response.body);
       if (!responseMap['status']) {
@@ -51,24 +48,22 @@ class LoginDriver {
       },
       body: jsonEncode(<String, String>{
         'companyId': companyId,
-        'attrOne': dataModel.attrOne,
-        'attrTwo': dataModel.attrTwo,
+        'attrOne': dataModel.name,
+        'attrTwo': dataModel.subject,
       }),
     );
     print(response.statusCode);
     if (response.statusCode != 200) {
       throw Exception('Failed to load data model');
-      return null; //TODO:fix exception handling
+      return null;
     } else {
       Map<String, dynamic> responseMap = jsonDecode(response.body);
       if (!responseMap['status']) {
         throw Exception('Failed to load data model');
       } else {
-        //print(responseMap['data']);
         for (var data in responseMap['data']) {
-          //print(data['accessToken']);
           prefs.setString('accessToken', data['accessToken']);
-          prefs.setString('emailId', dataModel.attrOne);
+          prefs.setString('emailId', dataModel.name);
           prefs.setString('userType', data['userType']);
         }
         return ApiResponse.fromMap(responseMap);

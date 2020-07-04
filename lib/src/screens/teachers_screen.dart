@@ -1,19 +1,17 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:impaco/src/models/data_model.dart';
 import 'package:impaco/src/apis/api_driver.dart';
+import 'package:impaco/src/screens/form_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:async';
 import 'package:intl/intl.dart';
 
-class ResultScreen extends StatefulWidget {
+class TeachersScreen extends StatefulWidget {
   @override
-  ResultScreenState createState() => ResultScreenState();
+  TeachersScreenState createState() => TeachersScreenState();
 }
 
-class ResultScreenState extends State<ResultScreen> {
+class TeachersScreenState extends State<TeachersScreen> {
   ApiDriver apiDriver = new ApiDriver();
 
   @override
@@ -45,7 +43,6 @@ class ResultScreenState extends State<ResultScreen> {
                   }
                 },
               ),
-//              for (var item in items) firstElement(),
             ],
           ),
         ),
@@ -55,7 +52,7 @@ class ResultScreenState extends State<ResultScreen> {
 
   Widget titleTag() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 30),
+      margin: const EdgeInsets.only(bottom: 15),
       child: Column(children: <Widget>[
         Text(
           "Future Classes",
@@ -66,12 +63,28 @@ class ResultScreenState extends State<ResultScreen> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-          child: Text(
-            "“Live as if you were to die tomorrow. Learn as if you were to live forever.” – Mahatma Gandhi",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14,
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => FormScreen()));
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.2),
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              padding: EdgeInsets.all(15.0),
+              child: Text(
+                "Schedule new Classes",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
             ),
           ),
         )

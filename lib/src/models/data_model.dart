@@ -1,32 +1,33 @@
 class DataModel {
   String primaryId;
-  String attrOne;
-  String attrTwo;
-  String attrThree;
-  String attrFour;
-  String attrFive;
-  String attrSix;
+  String name;
+  String subject;
+  String startDate;
+  String startTime;
+  String appName;
+  String meetingLink;
   String status;
 
   DataModel(
       {this.primaryId,
-      this.attrOne,
-      this.attrTwo,
-      this.attrThree,
-      this.attrFour,
-      this.attrFive,
-      this.attrSix,
+      this.name,
+      this.subject,
+      this.startDate,
+      this.startTime,
+      this.appName,
+      this.meetingLink,
       this.status});
 
   factory DataModel.fromMap(Map<String, dynamic> map) {
     return DataModel(
       primaryId: map.containsKey('primaryId') ? (map['primaryId'] ?? '') : '',
-      attrOne: map.containsKey('attrOne') ? (map['attrOne'] ?? '') : '',
-      attrTwo: map.containsKey('attrTwo') ? (map['attrTwo'] ?? '') : '',
-      attrThree: map.containsKey('attrThree') ? (map['attrThree'] ?? '') : '',
-      attrFour: map.containsKey('attrFour') ? (map['attrFour'] ?? '') : '',
-      attrFive: map.containsKey('attrFive') ? (map['attrFive'] ?? '') : '',
-      attrSix: map.containsKey('attrSix') ? (map['attrSix'] ?? '') : '',
+      name: map.containsKey('name') ? (map['name'] ?? '') : '',
+      subject: map.containsKey('subject') ? (map['subject'] ?? '') : '',
+      startDate: map.containsKey('startDate') ? (map['startDate'] ?? '') : '',
+      startTime: map.containsKey('startTime') ? (map['startTime'] ?? '') : '',
+      appName: map.containsKey('appName') ? (map['appName'] ?? '') : '',
+      meetingLink:
+          map.containsKey('meetingLink') ? (map['meetingLink'] ?? '') : '',
     );
   }
 }
