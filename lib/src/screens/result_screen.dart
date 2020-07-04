@@ -133,7 +133,6 @@ class ResultScreenState extends State<ResultScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-//                          Text(dataModel[index].attrOne),
                                 Text(
                                   dataModel[index].name,
                                   style: TextStyle(
