@@ -26,6 +26,8 @@ class PasswordField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autofocus: false,
+      autocorrect: false,
       onSaved: onSaved,
       validator: validator,
       style: TextStyle(

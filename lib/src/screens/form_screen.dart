@@ -27,9 +27,30 @@ class FormScreenState extends State<FormScreen> {
     'meetingLink': '',
   };
 
+  void setDate() {
+    final _dateTime = DateTime.now();
+    setState(() {
+      formData['startDate'] =
+          DateFormat('dd-MMM-yyyy').format(_dateTime).toString();
+      formData['startTime'] = DateFormat('h:mm a').format(_dateTime).toString();
+    });
+  }
+
+  @override
+  void initState() {
+    setDate();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: Color(0xFF2b2e44),
@@ -80,13 +101,17 @@ class FormScreenState extends State<FormScreen> {
                                 minTime: DateTime(2020, 3, 5),
                                 maxTime: DateTime(2030, 6, 7),
                                 onConfirm: (date) {
-                              formData['startDate'] = DateFormat('dd-MMM-yyyy')
-                                  .format(date)
-                                  .toString();
-                              formData['startTime'] =
-                                  DateFormat('h:mm a').format(date).toString();
-                              print(formData['startDate']);
-                              print(formData['startTime']);
+                              setState(() {
+                                FocusScope.of(context)
+                                    .requestFocus(new FocusNode());
+                                formData['startDate'] =
+                                    DateFormat('dd-MMM-yyyy')
+                                        .format(date)
+                                        .toString();
+                                formData['startTime'] = DateFormat('h:mm a')
+                                    .format(date)
+                                    .toString();
+                              });
                             },
                                 currentTime: DateTime.now(),
                                 locale: LocaleType.en);
@@ -101,7 +126,10 @@ class FormScreenState extends State<FormScreen> {
                                 width: 20,
                               ),
                               Text(
-                                'Choose Date and Time',
+                                " " +
+                                    formData['startDate'].toString() +
+                                    "     " +
+                                    formData['startTime'].toString(),
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 15,
@@ -122,52 +150,68 @@ class FormScreenState extends State<FormScreen> {
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: DropdownButton<String>(
-                            iconEnabledColor: Colors.white,
-                            value: formData['appName'],
-                            icon: Icon(Icons.keyboard_arrow_down),
-                            iconSize: 24,
-                            elevation: 16,
-                            dropdownColor: Color(0xFF2b2e44),
-                            isExpanded: true,
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white,
+                        child: Stack(
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.only(
+                                  left: 60.0, right: 30, top: 2),
+                              child: DropdownButton<String>(
+                                iconEnabledColor: Colors.white,
+                                value: formData['appName'],
+                                icon: Icon(Icons.keyboard_arrow_down),
+                                iconSize: 24,
+                                elevation: 16,
+                                dropdownColor: Color(0xFF2b2e44),
+                                isExpanded: true,
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white,
+                                ),
+                                underline: Container(
+                                  height: 2,
+                                  color: Color(0xFF2b2e44),
+                                ),
+                                onChanged: (String newValue) {
+                                  setState(() {
+                                    FocusScope.of(context)
+                                        .requestFocus(new FocusNode());
+                                    formData['appName'] = newValue;
+                                  });
+                                },
+                                items: <String>[
+                                  'Google Meet',
+                                  'Jio Meet',
+                                  'ZOOM',
+                                  'Google Duo',
+                                  'Skype',
+                                  'Discord'
+                                ].map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                              ),
                             ),
-                            underline: Container(
-                              height: 2,
-                              color: Color(0xFF2b2e44),
+                            Container(
+                              margin: EdgeInsets.only(top: 17.0, left: 19.0),
+                              child: Icon(
+                                Icons.apps,
+                                color: Colors.white,
+                                size: 20.0,
+                              ),
                             ),
-                            onChanged: (String newValue) {
-                              setState(() {
-                                formData['appName'] = newValue;
-                              });
-                            },
-                            items: <String>[
-                              'Google Meet',
-                              'ZOOM',
-                              'Google Duo',
-                              'Skype',
-                              'Discord'
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          ),
+                          ],
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
+                      padding: const EdgeInsets.only(bottom: 70),
                       child: InputField(
                         hintText: "Link",
                         icon: Icons.insert_link,
-                        validator: emptyValidator("Link must not be empty"),
+                        validator: urlValidator(),
                         onSaved: (val) => formData['meetingLink'] = val,
                       ),
                     ),
@@ -187,29 +231,33 @@ class FormScreenState extends State<FormScreen> {
       margin: const EdgeInsets.only(bottom: 30),
       child: Column(children: <Widget>[
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              "Register",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
+            Padding(
+              padding: EdgeInsets.only(left: 95, right: 55),
+              child: Text(
+                "Schedule",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-            IconButton(
-              icon: Icon(Icons.close),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              color: Colors.white,
+            Expanded(
+              child: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                color: Colors.white,
+              ),
             ),
           ],
         ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
           child: Text(
-            "Register your future class.",
+            "Schedule your next class.",
             style: TextStyle(
               color: Colors.white,
               fontSize: 18,
@@ -220,112 +268,45 @@ class FormScreenState extends State<FormScreen> {
     );
   }
 
-//  Widget nameField() {
-//    return TextFormField(
-//      keyboardType: TextInputType.text,
-//      decoration: InputDecoration(
-//        labelText: 'Enter Name',
-//        hintText: 'Enter Name',
-//      ),
-//      onSaved: (String value) {
-//        formData['attrOne'] = value;
-//      },
-//    );
-//  }
-//
-//  Widget contactNoField() {
-//    return TextFormField(
-//      keyboardType: TextInputType.number,
-//      decoration: InputDecoration(
-//        labelText: 'Enter contact no',
-//        hintText: 'Enter contact no.',
-//      ),
-//      onSaved: (String value) {
-//        formData['attrTwo'] = value;
-//      },
-//    );
-//  }
-//
-//  Widget dateField(BuildContext context) {
-//    return TextFormField(
-//      decoration: InputDecoration(
-//        labelText: 'Date',
-//        hintText: 'Date',
-//      ),
-//      onTap: () {
-//        showDatePicker(
-//          context: context,
-//          initialDate: DateTime.now(),
-//          firstDate: null,
-//          lastDate: DateTime(2020),
-//        ).then((date) {
-//          setState(() {
-//            var day = date.day;
-//          });
-//        });
-//      },
-//      onSaved: (String value) {
-//        formData['attrSix'] = value;
-//      },
-//    );
-//  }
-//
-//  Widget timeField(BuildContext context) {
-//    return TextFormField(
-//      decoration: InputDecoration(
-//        labelText: 'Time',
-//        hintText: 'Time',
-//      ),
-//      onTap: () {
-//        showTimePicker(context: context, initialTime: TimeOfDay.now());
-//      },
-//      onSaved: (String value) {
-//        formData['attrSix'] = value;
-//      },
-//    );
-//  }
-
   Widget submitButton(ApiDriver apiDriver) {
-    return Row(
-      children: <Widget>[
-        Center(
-          child: RaisedButton(
-            color: Colors.blue,
-            child: Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Text(
-                "Submit",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
+    return Center(
+      child: RaisedButton(
+        color: Color(0xFF2DA488),
+        child: Container(
+          height: 50,
+          width: double.infinity,
+          child: Center(
+            child: Text(
+              "SCHEDULE",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
               ),
             ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            onPressed: () async {
-              formKey.currentState.save();
-              if (!formKey.currentState.validate()) return;
-              if (formData['startDate'] == '' || formData['startTime'] == '') {
-                _showMyDialog(
-                    title: 'Failed',
-                    body: 'Please choose a Date and Time.',
-                    goToLogin: false);
-              }
-              final dataModel = DataModel.fromMap(formData);
-              ApiResponse response = await apiDriver.create(dataModel);
-              if (response.message == 'Successfully Saved') {
-                _showMyDialog(
-                    title: 'Successfully Saved',
-                    body: 'Your Class has been Scheduled.',
-                    goToLogin: true);
-              }
-              print(response.message);
-            },
           ),
         ),
-      ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        onPressed: () async {
+          formKey.currentState.save();
+          if (!formKey.currentState.validate()) return;
+          if (formData['startDate'] == '' || formData['startTime'] == '') {
+            _showMyDialog(
+                title: 'Failed',
+                body: 'Please choose a Date and Time.',
+                goToLogin: false);
+          }
+          final dataModel = DataModel.fromMap(formData);
+          ApiResponse response = await apiDriver.create(dataModel);
+          if (response.message == 'Successfully Saved') {
+            _showMyDialog(
+                title: 'Successfully Saved',
+                body: 'Your Class has been Scheduled.',
+                goToLogin: true);
+          }
+        },
+      ),
     );
   }
 

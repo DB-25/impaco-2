@@ -40,8 +40,26 @@ class LoginDriver {
     }
   }
 
+  Future<String> autoLogIn() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('password').isEmpty) return null;
+    LoginModel loginModel = LoginModel(
+        email: prefs.getString('emailId'),
+        password: prefs.getString('password'));
+    if (loginModel.password != null) {
+      final response = await login(loginModel);
+      if (response.status) {
+        String userType = getUserType();
+        return userType;
+      } else {
+        return null;
+      }
+    }
+    return null;
+  }
+
   Future<ApiResponse<DataModel>> login(LoginModel loginModel) async {
-    final prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     final response = await http.post(
       baseUrl + 'auth/login',
       headers: <String, String>{
@@ -62,6 +80,7 @@ class LoginDriver {
       if (!responseMap['status']) {
         throw Exception('Failed to load data model');
       } else {
+        prefs.setString('password', loginModel.password);
         for (var data in responseMap['data']) {
           prefs.setString('accessToken', data['accessToken']);
           prefs.setString('emailId', loginModel.email);

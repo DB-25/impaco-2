@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:impaco/src/models/data_model.dart';
 import 'package:impaco/src/apis/api_driver.dart';
 import 'package:impaco/src/screens/form_screen.dart';
@@ -16,34 +17,38 @@ class TeachersScreenState extends State<TeachersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF2b2e44),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
-          child: Column(
-            children: <Widget>[
-              titleTag(),
-              FutureBuilder(
-                future: apiDriver.read(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<DataModel>> snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.done:
-                      final response = snapshot.data;
-                      print(response);
-                      return firstElement(response);
-                      break;
-                    default:
-                      return Container(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                  }
-                },
-              ),
-            ],
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+        backgroundColor: Color(0xFF2b2e44),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
+            child: Column(
+              children: <Widget>[
+                titleTag(),
+                FutureBuilder(
+                  future: apiDriver.read(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<DataModel>> snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return Text('Loading....');
+                      case ConnectionState.done:
+                        final response = snapshot.data;
+                        return firstElement(response);
+                        break;
+                      default:
+                        return Container(
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -55,7 +60,7 @@ class TeachersScreenState extends State<TeachersScreen> {
       margin: const EdgeInsets.only(bottom: 15),
       child: Column(children: <Widget>[
         Text(
-          "Future Classes",
+          "Classes",
           style: TextStyle(
             color: Colors.white,
             fontSize: 40,
@@ -63,26 +68,31 @@ class TeachersScreenState extends State<TeachersScreen> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
           child: GestureDetector(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FormScreen()));
+              setState(() {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => FormScreen()));
+              });
             },
             child: Container(
+              width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Color(0xFF2DA488),
                 border: Border.all(
                   color: Colors.white.withOpacity(0.2),
                 ),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(30),
               ),
               padding: EdgeInsets.all(15.0),
-              child: Text(
-                "Schedule new Classes",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
+              child: Center(
+                child: Text(
+                  "Schedule new Classes",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
                 ),
               ),
             ),
@@ -93,6 +103,11 @@ class TeachersScreenState extends State<TeachersScreen> {
   }
 
   Widget firstElement(List<DataModel> dataModel) {
+    dataModel.sort((a, b) {
+      var aDate = a.startDate;
+      var bDate = b.startDate;
+      return aDate.compareTo(bDate);
+    });
     return Expanded(
       child: ListView.builder(
           scrollDirection: Axis.vertical,
@@ -102,11 +117,11 @@ class TeachersScreenState extends State<TeachersScreen> {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: AspectRatio(
-                aspectRatio: 3.2 / 1.4,
+                aspectRatio: 16 / 6,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Color(0xFF678CC0),
-                    borderRadius: BorderRadius.circular(25),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
                     boxShadow: [
                       BoxShadow(
                           offset: Offset(2, 4),
@@ -115,11 +130,19 @@ class TeachersScreenState extends State<TeachersScreen> {
                     ],
                   ),
                   child: Container(
-                    margin: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                     child: Row(
                       children: <Widget>[
                         Container(
-                          width: 100,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFea668d),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                bottomLeft: Radius.circular(15)),
+                          ),
+                          width: 125,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -136,7 +159,7 @@ class TeachersScreenState extends State<TeachersScreen> {
                                 month(dataModel[index].startDate),
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 20,
+                                  fontSize: 25,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -145,36 +168,37 @@ class TeachersScreenState extends State<TeachersScreen> {
                         ),
                         Expanded(
                           child: Container(
+                            padding: EdgeInsets.only(left: 20),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
 //                          Text(dataModel[index].attrOne),
                                 Text(
-                                  dataModel[index].name,
+                                  dataModel[index].name.toUpperCase(),
                                   style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 17,
-                                  ),
+                                      color: Colors.black.withOpacity(0.85),
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.w800),
                                 ),
                                 Text(
                                   dataModel[index].subject,
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black.withOpacity(0.6),
                                     fontSize: 17,
                                   ),
                                 ),
                                 Text(
                                   time(dataModel[index].startTime),
                                   style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 17,
+                                      color: Colors.black.withOpacity(0.8),
+                                      fontSize: 18,
                                       fontWeight: FontWeight.w900),
                                 ),
                                 Text(
                                   dataModel[index].appName,
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black.withOpacity(0.6),
                                     fontSize: 17,
                                   ),
                                 ),
@@ -212,5 +236,28 @@ class TeachersScreenState extends State<TeachersScreen> {
   String time(String savedDateString) {
     DateTime tempDate = new DateFormat("hh:mm:ss").parse(savedDateString);
     return DateFormat('h:mm a').format(tempDate);
+  }
+
+  Future<bool> _onBackPressed() {
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Are you sure?'),
+            content: new Text('Do you want to exit an App'),
+            actions: <Widget>[
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(false),
+                child: Text("NO"),
+              ),
+              SizedBox(height: 16),
+              new GestureDetector(
+                onTap: () => SystemChannels.platform
+                    .invokeMethod<void>('SystemNavigator.pop'),
+                child: Text("YES"),
+              ),
+            ],
+          ),
+        ) ??
+        false;
   }
 }

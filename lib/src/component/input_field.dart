@@ -17,6 +17,17 @@ FormFieldValidator<String> emailValidator() {
   };
 }
 
+FormFieldValidator<String> urlValidator() {
+  return (val) {
+    var urlPattern =
+        r"(https?|http)://([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?";
+    RegExp match = RegExp(urlPattern, caseSensitive: false);
+    match = RegExp(urlPattern, caseSensitive: false);
+    if (!match.hasMatch(val)) return 'Enter a valid URL';
+    return null;
+  };
+}
+
 class InputField extends StatelessWidget {
   final String hintText;
   final IconData icon;
@@ -36,6 +47,8 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autofocus: false,
+      autocorrect: false,
       onSaved: onSaved,
       validator: validator,
       style: TextStyle(
