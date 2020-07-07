@@ -6,13 +6,19 @@ import 'package:impaco/src/component/input_field.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:impaco/src/models/api_response_model.dart';
+import 'teachers_screen.dart';
+import 'dart:async';
 
 class FormScreen extends StatefulWidget {
+  final String email;
+  FormScreen(this.email);
   @override
-  FormScreenState createState() => FormScreenState();
+  FormScreenState createState() => FormScreenState(email);
 }
 
 class FormScreenState extends State<FormScreen> {
+  String email;
+  FormScreenState(this.email);
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   ApiDriver apiDriver = new ApiDriver();
@@ -211,7 +217,7 @@ class FormScreenState extends State<FormScreen> {
                       child: InputField(
                         hintText: "Link",
                         icon: Icons.insert_link,
-                        validator: urlValidator(),
+                        validator: emptyValidator("Enter a valid URL"),
                         onSaved: (val) => formData['meetingLink'] = val,
                       ),
                     ),
@@ -299,12 +305,23 @@ class FormScreenState extends State<FormScreen> {
           }
           final dataModel = DataModel.fromMap(formData);
           ApiResponse response = await apiDriver.create(dataModel);
+          TeachersScreenState teachersScreen = TeachersScreenState(email);
+          teachersScreen.refreshBool = true;
           if (response.message == 'Successfully Saved') {
             _showMyDialog(
                 title: 'Successfully Saved',
                 body: 'Your Class has been Scheduled.',
-                goToLogin: true);
+                goToLogin: false);
           }
+          Timer(Duration(seconds: 3), () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TeachersScreen(email))).then((value) {
+              teachersScreen.refreshBool = true;
+              teachersScreen.refresh();
+            });
+          });
         },
       ),
     );
@@ -330,7 +347,7 @@ class FormScreenState extends State<FormScreen> {
               child: Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
-                if (goToLogin) Navigator.of(context).pop();
+                if (goToLogin) Navigator.pop(context);
               },
             ),
           ],

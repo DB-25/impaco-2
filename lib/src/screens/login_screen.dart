@@ -24,12 +24,13 @@ class LoginScreenState extends State<LoginScreen> {
 
   autoLogin() async {
     final String userType = await loginDriver.autoLogIn();
+    final String email = await loginDriver.getEmail();
     if (userType == "Student") {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ResultScreen()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ResultScreen(email)));
     } else if (userType == "Teacher") {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => TeachersScreen()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => TeachersScreen(email)));
     } else {
       return;
     }
@@ -58,64 +59,74 @@ class LoginScreenState extends State<LoginScreen> {
         key: scaffoldKey,
         backgroundColor: Color(0xFF2b2e44),
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
-            child: Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.only(top: 40),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(
-                          width: double.infinity,
-                          height: 20.0,
-                        ),
-                        Text(
-                          "Log In",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 45,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  input(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+          child: SingleChildScrollView(
+            child: Container(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        "Don't have an Account?",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
+                      Container(
+                        margin: const EdgeInsets.only(top: 40),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            SizedBox(
+                              width: double.infinity,
+                              height: 20.0,
+                            ),
+                            Text(
+                              "Log In",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 45,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      FlatButton(
-                        child: Text(
-                          'Sign up',
-                          style: TextStyle(
-                            color: Color(0xFF2DA488),
-                            fontSize: 20,
+                      SizedBox(
+                        height: 80,
+                      ),
+                      input(),
+                      SizedBox(
+                        height: 150,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "Don't have an Account?",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
                           ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterScreen()),
-                          );
-                        },
+                          FlatButton(
+                            child: Text(
+                              'Sign up',
+                              style: TextStyle(
+                                color: Color(0xFF2DA488),
+                                fontSize: 20,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RegisterScreen()),
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
@@ -168,15 +179,20 @@ class LoginScreenState extends State<LoginScreen> {
             if (!formKey.currentState.validate()) return;
             final loginModel = LoginModel.fromMap(formData);
             final response = await loginDriver.login(loginModel);
+            final String email = await loginDriver.getEmail();
             if (response.status) {
               String userType = loginDriver.getUserType();
               print(userType);
               if (userType == "Student") {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => ResultScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ResultScreen(email)));
               } else {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => TeachersScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TeachersScreen(email)));
               }
             } else {
               _showMyDialog(

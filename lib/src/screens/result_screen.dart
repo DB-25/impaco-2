@@ -1,18 +1,28 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:impaco/src/models/data_model.dart';
 import 'package:impaco/src/apis/api_driver.dart';
+import 'package:impaco/src/screens/login_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
+import 'package:impaco/src/apis/login_driver.dart';
 
 class ResultScreen extends StatefulWidget {
+  final String email;
+  ResultScreen(this.email);
   @override
-  ResultScreenState createState() => ResultScreenState();
+  ResultScreenState createState() => ResultScreenState(email);
 }
 
 class ResultScreenState extends State<ResultScreen> {
+  String email;
+  ResultScreenState(this.email);
+  void initState() {
+    super.initState();
+  }
+
+  LoginDriver loginDriver = new LoginDriver();
   ApiDriver apiDriver = new ApiDriver();
 
   @override
@@ -20,6 +30,74 @@ class ResultScreenState extends State<ResultScreen> {
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xFF2b2e44),
+          centerTitle: true,
+          title: Text('EDUCATO'),
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Educato',
+                      style: TextStyle(
+                          fontSize: 55.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  color: Color(0xFF2DA488),
+                ),
+              ),
+              ListTile(
+                title: Row(
+                  children: <Widget>[
+                    Icon(Icons.person),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        email,
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Row(
+                  children: <Widget>[
+                    Icon(Icons.power_settings_new),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Log Out',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    )
+                  ],
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  loginDriver.logOut();
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ),
         backgroundColor: Color(0xFF2b2e44),
         body: SafeArea(
           child: Padding(
@@ -122,7 +200,7 @@ class ResultScreenState extends State<ResultScreen> {
                                 topLeft: Radius.circular(15),
                                 bottomLeft: Radius.circular(15)),
                           ),
-                          width: 125,
+                          width: 100,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,

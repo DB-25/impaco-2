@@ -7,47 +7,141 @@ import 'package:impaco/src/screens/form_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
+import 'package:impaco/src/apis/login_driver.dart';
+
 class TeachersScreen extends StatefulWidget {
+  final String email;
+  TeachersScreen(this.email);
+
   @override
-  TeachersScreenState createState() => TeachersScreenState();
+  TeachersScreenState createState() => TeachersScreenState(email);
 }
 
 class TeachersScreenState extends State<TeachersScreen> {
+  String email;
+  TeachersScreenState(this.email);
+  void initState() {
+    super.initState();
+  }
+
+  LoginDriver loginDriver = new LoginDriver();
+
+  bool refreshBool;
+  void refresh() {
+    if (refreshBool) {
+      setState(() {
+        refreshBool = false;
+      });
+    }
+  }
+
   ApiDriver apiDriver = new ApiDriver();
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onBackPressed,
-      child: Scaffold(
-        backgroundColor: Color(0xFF2b2e44),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
-            child: Column(
+      child: GestureDetector(
+        onTap: () => refresh(),
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Color(0xFF2b2e44),
+            centerTitle: true,
+            title: Text('EDUCATO'),
+          ),
+          drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
               children: <Widget>[
-                titleTag(),
-                FutureBuilder(
-                  future: apiDriver.read(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<DataModel>> snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
-                        return Text('Loading....');
-                      case ConnectionState.done:
-                        final response = snapshot.data;
-                        return firstElement(response);
-                        break;
-                      default:
-                        return Container(
-                          child: Center(
-                            child: CircularProgressIndicator(),
+                DrawerHeader(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Educato',
+                        style: TextStyle(
+                            fontSize: 55.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF2DA488),
+                  ),
+                ),
+                ListTile(
+                  title: Row(
+                    children: <Widget>[
+                      Icon(Icons.person),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          email,
+                          style: TextStyle(
+                            fontSize: 18,
                           ),
-                        );
-                    }
+                        ),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: <Widget>[
+                      Icon(Icons.power_settings_new),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Log Out',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      )
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    loginDriver.logOut();
+                    Navigator.pop(context);
                   },
                 ),
               ],
+            ),
+          ),
+          backgroundColor: Color(0xFF2b2e44),
+          body: SafeArea(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
+              child: Column(
+                children: <Widget>[
+                  titleTag(),
+                  FutureBuilder(
+                    future: apiDriver.read(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<DataModel>> snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return Text('Loading....');
+                        case ConnectionState.done:
+                          final response = snapshot.data;
+                          return firstElement(response);
+                          break;
+                        default:
+                          return Container(
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -72,8 +166,13 @@ class TeachersScreenState extends State<TeachersScreen> {
           child: GestureDetector(
             onTap: () {
               setState(() {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => FormScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => FormScreen(email))).then((value) {
+                  refreshBool = true;
+                  refresh();
+                });
               });
             },
             child: Container(
@@ -142,7 +241,7 @@ class TeachersScreenState extends State<TeachersScreen> {
                                 topLeft: Radius.circular(15),
                                 bottomLeft: Radius.circular(15)),
                           ),
-                          width: 125,
+                          width: 100,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -246,13 +345,21 @@ class TeachersScreenState extends State<TeachersScreen> {
             content: new Text('Do you want to exit an App'),
             actions: <Widget>[
               new GestureDetector(
-                onTap: () => Navigator.of(context).pop(false),
+                onTap: () {
+                  setState(() {
+                    Navigator.of(context).pop(false);
+                  });
+                },
                 child: Text("NO"),
               ),
               SizedBox(height: 16),
               new GestureDetector(
-                onTap: () => SystemChannels.platform
-                    .invokeMethod<void>('SystemNavigator.pop'),
+                onTap: () {
+                  setState(() {
+                    SystemChannels.platform
+                        .invokeMethod<void>('SystemNavigator.pop');
+                  });
+                },
                 child: Text("YES"),
               ),
             ],

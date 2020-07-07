@@ -40,9 +40,14 @@ class LoginDriver {
     }
   }
 
+  Future logOut() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  }
+
   Future<String> autoLogIn() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString('password').isEmpty) return null;
+    if (!prefs.containsKey('password')) return null;
     LoginModel loginModel = LoginModel(
         email: prefs.getString('emailId'),
         password: prefs.getString('password'));
@@ -56,6 +61,14 @@ class LoginDriver {
       }
     }
     return null;
+  }
+
+  Future<String> getEmail() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('emailId'))
+      return null;
+    else
+      return prefs.getString('emailId');
   }
 
   Future<ApiResponse<DataModel>> login(LoginModel loginModel) async {
