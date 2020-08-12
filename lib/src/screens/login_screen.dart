@@ -8,6 +8,7 @@ import 'package:impaco/src/models/data_model.dart';
 import 'package:impaco/src/models/login_model.dart';
 import 'package:impaco/src/screens/register_screen.dart';
 import 'package:impaco/src/screens/result_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'teachers_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -23,8 +24,10 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   autoLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     final String userType = await loginDriver.autoLogIn();
     final String email = await loginDriver.getEmail();
+    prefs.setString('userType', userType);
     if (userType == "Student") {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => ResultScreen(email)));

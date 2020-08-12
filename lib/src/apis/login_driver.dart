@@ -93,6 +93,8 @@ class LoginDriver {
       if (!responseMap['status']) {
         throw Exception('Failed to load data model');
       } else {
+        if (loginModel.email == 'dhruv2@gmail.com')
+          prefs.setBool('admin', true);
         prefs.setString('password', loginModel.password);
         for (var data in responseMap['data']) {
           prefs.setString('accessToken', data['accessToken']);

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:impaco/src/models/data_model.dart';
 import 'package:impaco/src/apis/api_driver.dart';
+import 'package:impaco/src/screens/course_screen.dart';
 import 'package:impaco/src/screens/form_screen.dart';
+import 'package:impaco/src/screens/login_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
-
+import 'package:impaco/src/screens/course_form_screen.dart';
 import 'package:impaco/src/apis/login_driver.dart';
 
 class TeachersScreen extends StatefulWidget {
@@ -20,10 +22,6 @@ class TeachersScreen extends StatefulWidget {
 class TeachersScreenState extends State<TeachersScreen> {
   String email;
   TeachersScreenState(this.email);
-  void initState() {
-    super.initState();
-  }
-
   LoginDriver loginDriver = new LoginDriver();
 
   bool refreshBool;
@@ -93,6 +91,26 @@ class TeachersScreenState extends State<TeachersScreen> {
                 ListTile(
                   title: Row(
                     children: <Widget>[
+                      Icon(Icons.content_paste),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Courses',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      )
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CourseScreen()));
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: <Widget>[
                       Icon(Icons.power_settings_new),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -106,7 +124,8 @@ class TeachersScreenState extends State<TeachersScreen> {
                   onTap: () {
                     Navigator.pop(context);
                     loginDriver.logOut();
-                    Navigator.pop(context);
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()));
                   },
                 ),
               ],
@@ -272,7 +291,6 @@ class TeachersScreenState extends State<TeachersScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-//                          Text(dataModel[index].attrOne),
                                 Text(
                                   dataModel[index].name.toUpperCase(),
                                   style: TextStyle(

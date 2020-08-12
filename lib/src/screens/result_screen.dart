@@ -7,6 +7,7 @@ import 'package:impaco/src/screens/login_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 import 'package:impaco/src/apis/login_driver.dart';
+import 'package:impaco/src/screens/course_screen.dart';
 
 class ResultScreen extends StatefulWidget {
   final String email;
@@ -79,6 +80,24 @@ class ResultScreenState extends State<ResultScreen> {
               ListTile(
                 title: Row(
                   children: <Widget>[
+                    Icon(Icons.content_paste),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Courses',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    )
+                  ],
+                ),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CourseScreen()));
+                },
+              ),
+              ListTile(
+                title: Row(
+                  children: <Widget>[
                     Icon(Icons.power_settings_new),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -92,7 +111,8 @@ class ResultScreenState extends State<ResultScreen> {
                 onTap: () {
                   Navigator.pop(context);
                   loginDriver.logOut();
-                  Navigator.pop(context);
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
                 },
               ),
             ],
