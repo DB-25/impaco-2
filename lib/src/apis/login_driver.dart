@@ -13,7 +13,7 @@ class LoginDriver {
 
   Future<ApiResponse<DataModel>> create(RegisterModel registerModel) async {
     final http.Response response = await http.post(
-      baseUrl + 'auth/signup',
+      baseUrl + 'ed-auth/signup',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -74,7 +74,7 @@ class LoginDriver {
   Future<ApiResponse<DataModel>> login(LoginModel loginModel) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final response = await http.post(
-      baseUrl + 'auth/login',
+      baseUrl + 'ed-auth/login',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'accessToken': 'dfgdh',
@@ -86,6 +86,12 @@ class LoginDriver {
       }),
     );
     print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 404) {
+      Map<String, dynamic> responseMap = jsonDecode(response.body);
+      print(responseMap);
+      return ApiResponse.fromMap(responseMap);
+    }
     if (response.statusCode != 200) {
       throw Exception('Failed to load data model');
     } else {
@@ -93,14 +99,17 @@ class LoginDriver {
       if (!responseMap['status']) {
         throw Exception('Failed to load data model');
       } else {
-        if (loginModel.email == 'dhruv2@gmail.com')
-          prefs.setBool('admin', true);
+        print(responseMap);
         prefs.setString('password', loginModel.password);
         for (var data in responseMap['data']) {
           prefs.setString('accessToken', data['accessToken']);
           prefs.setString('emailId', loginModel.email);
           prefs.setString('userType', data['userType']);
           userType = data['userType'];
+        }
+        if (userType == 'ROLL_ADMIN') {
+          prefs.setBool('admin', true);
+          userType = 'Teacher';
         }
         return ApiResponse.fromMap(responseMap);
       }
