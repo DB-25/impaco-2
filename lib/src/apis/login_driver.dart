@@ -107,7 +107,7 @@ class LoginDriver {
           prefs.setString('userType', data['userType']);
           userType = data['userType'];
         }
-        if (userType == 'ROLL_ADMIN') {
+        if (userType == 'Admin') {
           prefs.setBool('admin', true);
           userType = 'Teacher';
         }
