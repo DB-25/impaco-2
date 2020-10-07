@@ -16,13 +16,13 @@ class CourseForm extends StatefulWidget {
 }
 
 final formKey = GlobalKey<FormState>();
-final scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _CourseFormState extends State<CourseForm> {
   final CourseModel courseModel;
   final bool update;
   _CourseFormState({this.update, this.courseModel});
   var formData = {
+    'courseId': '',
     'name': '',
     'title': '',
     'instructor': '',
@@ -35,6 +35,8 @@ class _CourseFormState extends State<CourseForm> {
   ApiDriver apiDriver = new ApiDriver();
   @override
   Widget build(BuildContext context) {
+    // ignore: unnecessary_statements
+    update ? formData['courseId'] = courseModel.courseId : '';
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -43,7 +45,6 @@ class _CourseFormState extends State<CourseForm> {
         }
       },
       child: Scaffold(
-        key: scaffoldKey,
         backgroundColor: Color(0xFF2b2e44),
         appBar: AppBar(
           backgroundColor: Color(0xFF2b2e44),

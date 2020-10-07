@@ -30,6 +30,17 @@ class ApiDriver {
         'emailId': prefs.getString('emailId'),
       }),
     );
+    print({
+      'companyId': companyId,
+      'name': dataModel.name,
+      'subject': dataModel.subject,
+      'startDate': dataModel.startDate,
+      'startTime': dataModel.startTime,
+      'appName': dataModel.appName,
+      'meetingLink': dataModel.meetingLink,
+      'status': "Active",
+      'emailId': prefs.getString('emailId'),
+    });
     print(response.statusCode);
     print(response.body);
     if (response.statusCode != 200) {
@@ -64,6 +75,16 @@ class ApiDriver {
         'status': courseModel.status
       }),
     );
+    print({
+      'companyId': companyId,
+      'name': courseModel.name,
+      'title': courseModel.title,
+      'instructor': courseModel.instructor,
+      'courseLink': courseModel.courseLink,
+      'platform': courseModel.platform,
+      'websiteLink': courseModel.websiteLink,
+      'status': courseModel.status
+    });
     print(response.statusCode);
     print(response.body);
     if (response.statusCode != 200) {
@@ -99,6 +120,17 @@ class ApiDriver {
         'status': courseModel.status
       }),
     );
+    print({
+      'companyId': companyId,
+      'courseId': courseModel.courseId,
+      'name': courseModel.name,
+      'title': courseModel.title,
+      'instructor': courseModel.instructor,
+      'courseLink': courseModel.courseLink,
+      'platform': courseModel.platform,
+      'websiteLink': courseModel.websiteLink,
+      'status': courseModel.status
+    });
     print(response.statusCode);
     print(response.body);
     if (response.statusCode != 200) {
@@ -125,6 +157,9 @@ class ApiDriver {
         'companyId': companyId,
       }),
     );
+    print({
+      'companyId': companyId,
+    });
     print(response.statusCode);
     print(response.body);
     if (response.statusCode != 200) {
@@ -157,6 +192,10 @@ class ApiDriver {
         'emailId': prefs.getString('emailId'),
       }),
     );
+    print({
+      'companyId': companyId,
+      'emailId': prefs.getString('emailId'),
+    });
     print(response.statusCode);
     print(response.body);
     if (response.statusCode != 200) {
