@@ -230,7 +230,7 @@ class _CourseFormState extends State<CourseForm> {
                 body: 'Your Course has been Registered.',
                 goToLogin: false);
           }
-          Timer(Duration(seconds: 2), () {
+          Timer(Duration(seconds: 1), () {
             Navigator.push(context,
                     MaterialPageRoute(builder: (context) => CourseScreen()))
                 .then((value) {

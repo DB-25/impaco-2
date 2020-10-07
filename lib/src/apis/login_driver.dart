@@ -8,6 +8,7 @@ import 'package:impaco/src/models/register_model.dart';
 
 class LoginDriver {
   final String baseUrl = 'http://145.239.92.37:8080/auth-app/';
+  final String baseTestUrl = 'http://145.239.92.37:8080/fagnum-test-api/';
   final String companyId = 'ff8081817044351501715a08f5100006';
   String userType;
 

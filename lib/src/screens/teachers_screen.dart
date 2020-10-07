@@ -145,10 +145,22 @@ class TeachersScreenState extends State<TeachersScreen> {
                         AsyncSnapshot<List<DataModel>> snapshot) {
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
-                          return Text('Loading....');
+                          return CircularProgressIndicator();
+                        //   Text(
+                        //   'Loading....',
+                        //   style: TextStyle(color: Colors.white),
+                        // );
                         case ConnectionState.done:
                           final response = snapshot.data;
-                          return firstElement(response);
+                          return (response == null)
+                              ? Container(
+                                  child: Text(
+                                    'No Classes scheduled',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 22),
+                                  ),
+                                )
+                              : firstElement(response);
                           break;
                         default:
                           return Container(

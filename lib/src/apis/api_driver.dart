@@ -6,13 +6,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:impaco/src/models/course_model.dart';
 
 class ApiDriver {
-  final String baseUrl = 'http://145.239.92.37:8080/fagnum-test-api/';
+  final String baseUrl = 'https://api.fagnum.com/';
+  // final String baseUrl = 'http://145.239.92.37:8080/fagnum-test-api/';
   final String companyId = 'ff8081817044351501715a08f5100006';
 
   Future<ApiResponse<DataModel>> create(DataModel dataModel) async {
     final prefs = await SharedPreferences.getInstance();
     final http.Response response = await http.post(
-      'http://145.239.92.37:8080/fagnum-api/' + 'classes/create',
+      baseUrl + 'classes/create',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': "Bearer " + prefs.getString('accessToken'),
@@ -45,7 +46,7 @@ class ApiDriver {
 
   Future<ApiResponse<DataModel>> createCourse(CourseModel courseModel) async {
     final prefs = await SharedPreferences.getInstance();
-    print(prefs.getString('accessToken'));
+
     final http.Response response = await http.post(
       baseUrl + 'course/create',
       headers: <String, String>{
@@ -79,7 +80,7 @@ class ApiDriver {
 
   Future<ApiResponse<DataModel>> updateCourse(CourseModel courseModel) async {
     final prefs = await SharedPreferences.getInstance();
-    print(prefs.getString('accessToken'));
+
     final http.Response response = await http.post(
       baseUrl + 'course/update',
       headers: <String, String>{
@@ -144,8 +145,9 @@ class ApiDriver {
 
   Future<List<DataModel>> read() async {
     final prefs = await SharedPreferences.getInstance();
+
     final response = await http.post(
-      'http://145.239.92.37:8080/fagnum-api/' + 'classes/read',
+      baseUrl + 'classes/read',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': "Bearer " + prefs.getString('accessToken'),

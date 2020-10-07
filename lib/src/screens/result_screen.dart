@@ -131,11 +131,23 @@ class ResultScreenState extends State<ResultScreen> {
                       AsyncSnapshot<List<DataModel>> snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
-                        return Text('Loading....');
+                        return CircularProgressIndicator();
+                      //   Text(
+                      //   'Loading....',
+                      //   style: TextStyle(color: Colors.white),
+                      // );
                       case ConnectionState.done:
                         final response = snapshot.data;
 //                        print(response);
-                        return firstElement(response);
+                        return (response == null)
+                            ? Container(
+                                child: Text(
+                                  'No Classes scheduled',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 22),
+                                ),
+                              )
+                            : firstElement(response);
                         break;
                       default:
                         return Container(

@@ -161,10 +161,25 @@ class CourseScreenState extends State<CourseScreen> {
                       AsyncSnapshot<List<CourseModel>> snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
-                        return Text('Loading....');
+                        return CircularProgressIndicator();
+                      //   Text(
+                      //   'Loading....',
+                      //   style: TextStyle(color: Colors.white),
+                      // );
                       case ConnectionState.done:
                         final response = snapshot.data;
-                        return listView(response);
+                        return (response == null)
+                            ? Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Text(
+                                    'No Courses registered',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 22),
+                                  ),
+                                ),
+                              )
+                            : listView(response);
                         break;
                       default:
                         return Container(
